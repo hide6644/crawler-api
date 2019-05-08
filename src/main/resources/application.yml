@@ -5,7 +5,12 @@ spring:
     password: crawler_pass
     driver-class-name: com.mysql.cj.jdbc.Driver
 
-  security:
-    user:
-      name: user
-      password: user
+springbootwebfluxjjwt:
+  password:
+    encoder:
+      secret: mysecret
+      iteration: 33
+      keylength: 256
+  jjwt: 
+    secret: ThisIsSecretForJWTHS512SignatureAlgorithmThatMUSTHave512bitsKeySize
+    expiration: 28800
