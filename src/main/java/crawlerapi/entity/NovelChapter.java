@@ -16,6 +16,9 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -25,6 +28,7 @@ import lombok.Setter;
  */
 @Entity
 @Table(name = "novel_chapter")
+@JsonIdentityInfo(property = "_id", generator = ObjectIdGenerators.UUIDGenerator.class)
 @Setter
 @Getter
 @EqualsAndHashCode(of = { "url" }, callSuper = false)
@@ -41,7 +45,7 @@ public class NovelChapter extends BaseObject implements Serializable {
     /** 本文 */
     @Column
     @Lob
-    @Basic(fetch = FetchType.LAZY)
+    @Basic(fetch = FetchType.EAGER)
     private String body;
 
     /** 小説の章の付随情報 */
@@ -49,11 +53,11 @@ public class NovelChapter extends BaseObject implements Serializable {
     private NovelChapterInfo novelChapterInfo;
 
     /** 小説の章の更新履歴セット */
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "novelChapter", cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "novelChapter", cascade = CascadeType.ALL)
     private Set<NovelChapterHistory> novelChapterHistories = new HashSet<>();
 
     /** 小説 */
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "novel_id")
     private Novel novel;
 

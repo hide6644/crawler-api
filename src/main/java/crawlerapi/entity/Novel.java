@@ -17,6 +17,9 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -27,6 +30,7 @@ import lombok.Setter;
 @Entity
 @Table(name = "novel")
 @XmlRootElement
+@JsonIdentityInfo(property = "_id", generator = ObjectIdGenerators.UUIDGenerator.class)
 @Setter
 @Getter
 @EqualsAndHashCode(of = { "url" }, callSuper = false)
@@ -51,7 +55,7 @@ public class Novel extends BaseObject implements Serializable {
     /** 本文 */
     @Column
     @Lob
-    @Basic(fetch = FetchType.LAZY)
+    @Basic(fetch = FetchType.EAGER)
     private String body;
 
     /** 削除フラグ */
@@ -63,11 +67,11 @@ public class Novel extends BaseObject implements Serializable {
     private NovelInfo novelInfo;
 
     /** 小説の更新履歴セット */
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "novel", cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "novel", cascade = CascadeType.ALL)
     private Set<NovelHistory> novelHistories = new HashSet<>();
 
     /** 小説の章リスト */
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "novel", cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "novel", cascade = CascadeType.ALL)
     private List<NovelChapter> novelChapters = new ArrayList<>();
 
     public void addNovelHistory(NovelHistory novelHistory) {

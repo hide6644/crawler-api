@@ -3,8 +3,8 @@ server:
 
 spring:
   datasource:
-    url: jdbc:mysql://localhost:3306/crawler?zeroDateTimeBehavior=CONVERT_TO_NULL&characterEncoding=UTF-8&serverTimezone=JST
-    username: crawler
+    url: jdbc:mysql://localhost:3306/crawler_test?zeroDateTimeBehavior=CONVERT_TO_NULL&characterEncoding=UTF-8&serverTimezone=JST
+    username: crawler_test
     password: crawler_pass
     driver-class-name: com.mysql.cj.jdbc.Driver
 
