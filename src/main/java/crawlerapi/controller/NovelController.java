@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import crawlerapi.service.NovelService;
 import lombok.RequiredArgsConstructor;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 @RestController
@@ -19,7 +20,7 @@ public class NovelController {
     @PreAuthorize("hasRole('USER')")
     public Mono<ResponseEntity<NovelResponse>> findAll() {
         NovelResponse novelResponse = NovelResponse.builder()
-                .novels(novelService.findAll())
+                .novels(Flux.fromIterable(novelService.findAll()))
                 .build();
         return Mono.just(ResponseEntity.ok(novelResponse));
     }

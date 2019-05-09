@@ -8,6 +8,9 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.reactive.EnableWebFluxSecurity;
 import org.springframework.security.config.web.server.ServerHttpSecurity;
 import org.springframework.security.web.server.SecurityWebFilterChain;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.reactive.CorsConfigurationSource;
+import org.springframework.web.cors.reactive.UrlBasedCorsConfigurationSource;
 
 import crawlerapi.security.AuthenticationManager;
 import crawlerapi.security.SecurityContextRepository;
@@ -36,7 +39,8 @@ public class WebSecurityConfig {
                         swe.getResponse().setStatusCode(HttpStatus.FORBIDDEN);
                     });
                 }).and()
-                .csrf().disable()
+                .cors().configurationSource(corsConfigurationSource())
+                .and().csrf().disable()
                 .formLogin().disable()
                 .httpBasic().disable()
                 .authenticationManager(authenticationManager)
@@ -46,5 +50,17 @@ public class WebSecurityConfig {
                 .pathMatchers("/login").permitAll()
                 .anyExchange().authenticated()
                 .and().build();
+    }
+
+    private CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration corsConfiguration = new CorsConfiguration();
+        corsConfiguration.addAllowedOrigin("*");
+        corsConfiguration.addAllowedMethod("*");
+        corsConfiguration.addAllowedHeader("*");
+
+        UrlBasedCorsConfigurationSource corsSource = new UrlBasedCorsConfigurationSource();
+        corsSource.registerCorsConfiguration("/**", corsConfiguration);
+
+        return corsSource;
     }
 }
