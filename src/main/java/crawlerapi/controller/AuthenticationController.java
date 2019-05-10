@@ -1,6 +1,5 @@
 package crawlerapi.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -12,19 +11,18 @@ import crawlerapi.security.PBKDF2Encoder;
 import crawlerapi.security.model.AuthRequest;
 import crawlerapi.security.model.AuthResponse;
 import crawlerapi.service.UserService;
+import lombok.RequiredArgsConstructor;
 import reactor.core.publisher.Mono;
 
 @RestController
+@RequiredArgsConstructor
 public class AuthenticationController {
 
-    @Autowired
-    private JWTUtil jwtUtil;
+    private final JWTUtil jwtUtil;
 
-    @Autowired
-    private PBKDF2Encoder passwordEncoder;
+    private final PBKDF2Encoder passwordEncoder;
 
-    @Autowired
-    private UserService userRepository;
+    private final UserService userRepository;
 
     @PostMapping("/login")
     public Mono<ResponseEntity<?>> login(@RequestBody AuthRequest ar) {

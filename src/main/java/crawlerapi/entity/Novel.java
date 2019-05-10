@@ -17,9 +17,6 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
-
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -30,7 +27,6 @@ import lombok.Setter;
 @Entity
 @Table(name = "novel")
 @XmlRootElement
-@JsonIdentityInfo(property = "_id", generator = ObjectIdGenerators.UUIDGenerator.class)
 @Setter
 @Getter
 @EqualsAndHashCode(of = { "url" }, callSuper = false)

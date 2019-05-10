@@ -1,6 +1,6 @@
 package crawlerapi.service;
 
-import java.util.List;
+import java.util.stream.Stream;
 
 import org.springframework.stereotype.Service;
 
@@ -14,7 +14,7 @@ public class NovelService {
 
     private final NovelRepository novelRepository;
 
-    public List<Novel> findAll() {
-        return novelRepository.findAll();
+    public Stream<Novel> findAll() {
+        return novelRepository.findAll().stream();
     }
 }

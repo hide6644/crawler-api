@@ -16,9 +16,6 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
-
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -28,7 +25,6 @@ import lombok.Setter;
  */
 @Entity
 @Table(name = "novel_chapter")
-@JsonIdentityInfo(property = "_id", generator = ObjectIdGenerators.UUIDGenerator.class)
 @Setter
 @Getter
 @EqualsAndHashCode(of = { "url" }, callSuper = false)

@@ -22,9 +22,6 @@ import javax.persistence.Transient;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
-
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
@@ -34,7 +31,6 @@ import lombok.Setter;
  */
 @Entity
 @Table(name = "novel_info")
-@JsonIdentityInfo(property = "_id", generator = ObjectIdGenerators.UUIDGenerator.class)
 @Setter
 @Getter
 public class NovelInfo extends BaseObject implements Serializable {
