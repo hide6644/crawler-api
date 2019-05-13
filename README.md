@@ -1,6 +1,6 @@
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 ***
-## YOMOU CRAWLER API
+# YOMOU CRAWLER API
 YOMOU CRAWLERで収集した更新情報をWeb Serviceで提供する。
 
 ## DESCRIPTION
