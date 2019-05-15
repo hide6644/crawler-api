@@ -19,10 +19,10 @@ public class JWTUtil implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @Value("${springbootwebfluxjjwt.jjwt.secret}")
+    @Value("${crawler-api.jjwt.secret}")
     private String secret;
 
-    @Value("${springbootwebfluxjjwt.jjwt.expiration}")
+    @Value("${crawler-api.jjwt.expiration}")
     private String expirationTime;
 
     public Claims getAllClaimsFromToken(String token) {

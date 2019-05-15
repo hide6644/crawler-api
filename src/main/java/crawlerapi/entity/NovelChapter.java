@@ -16,6 +16,12 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import org.apache.lucene.analysis.ja.JapaneseAnalyzer;
+import org.hibernate.search.annotations.Analyzer;
+import org.hibernate.search.annotations.ContainedIn;
+import org.hibernate.search.annotations.Field;
+import org.hibernate.search.annotations.Indexed;
+
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -25,6 +31,8 @@ import lombok.Setter;
  */
 @Entity
 @Table(name = "novel_chapter")
+@Indexed
+@Analyzer(impl = JapaneseAnalyzer.class)
 @Setter
 @Getter
 @EqualsAndHashCode(of = { "url" }, callSuper = false)
@@ -36,12 +44,14 @@ public class NovelChapter extends BaseObject implements Serializable {
 
     /** タイトル */
     @Column(length = 100)
+    @Field
     private String title;
 
     /** 本文 */
     @Column
     @Lob
     @Basic(fetch = FetchType.EAGER)
+    @Field
     private String body;
 
     /** 小説の章の付随情報 */
@@ -55,6 +65,7 @@ public class NovelChapter extends BaseObject implements Serializable {
     /** 小説 */
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "novel_id")
+    @ContainedIn
     private Novel novel;
 
     public void addNovelChapterHistory(NovelChapterHistory novelChapterHistory) {

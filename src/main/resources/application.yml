@@ -7,8 +7,16 @@ spring:
     username: crawler_test
     password: crawler_pass
     driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    properties:
+      hibernate:
+        search:
+          lucene_version: LUCENE_CURRENT
+          default:
+            directory_provider: filesystem
+            indexBase: ./index
 
-springbootwebfluxjjwt:
+crawler-api:
   password:
     encoder:
       secret: mysecret

@@ -21,6 +21,15 @@ import javax.persistence.Transient;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.apache.lucene.analysis.core.WhitespaceAnalyzer;
+import org.hibernate.search.annotations.Analyze;
+import org.hibernate.search.annotations.Analyzer;
+import org.hibernate.search.annotations.ContainedIn;
+import org.hibernate.search.annotations.Facet;
+import org.hibernate.search.annotations.FacetEncodingType;
+import org.hibernate.search.annotations.Field;
+import org.hibernate.search.annotations.Indexed;
+import org.hibernate.search.annotations.IndexedEmbedded;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -31,6 +40,7 @@ import lombok.Setter;
  */
 @Entity
 @Table(name = "novel_info")
+@Indexed
 @Setter
 @Getter
 public class NovelInfo extends BaseObject implements Serializable {
@@ -52,11 +62,14 @@ public class NovelInfo extends BaseObject implements Serializable {
 
     /** キーワード */
     @Column(length = 300)
+    @Field
+    @Analyzer(impl = WhitespaceAnalyzer.class)
     private String keyword;
 
     /** キーワードセット */
     @Transient
     @OneToMany
+    @IndexedEmbedded
     private Set<KeywordWrap> keywordSet = new HashSet<>();
 
     /** お気に入りフラグ */
@@ -74,6 +87,7 @@ public class NovelInfo extends BaseObject implements Serializable {
     /** 小説 */
     @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "novel_id")
+    @ContainedIn
     private Novel novel;
 
     /**
@@ -130,5 +144,7 @@ public class NovelInfo extends BaseObject implements Serializable {
 class KeywordWrap implements Serializable {
 
     /** キーワード */
+    @Field(analyze = Analyze.NO)
+    @Facet(encoding = FacetEncodingType.STRING)
     String keyword;
 }

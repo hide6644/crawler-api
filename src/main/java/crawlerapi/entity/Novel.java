@@ -17,6 +17,12 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import org.apache.lucene.analysis.ja.JapaneseAnalyzer;
+import org.hibernate.search.annotations.Analyzer;
+import org.hibernate.search.annotations.Field;
+import org.hibernate.search.annotations.Indexed;
+import org.hibernate.search.annotations.IndexedEmbedded;
+
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -26,6 +32,8 @@ import lombok.Setter;
  */
 @Entity
 @Table(name = "novel")
+@Indexed
+@Analyzer(impl = JapaneseAnalyzer.class)
 @XmlRootElement
 @Setter
 @Getter
@@ -38,20 +46,24 @@ public class Novel extends BaseObject implements Serializable {
 
     /** タイトル */
     @Column(length = 100)
+    @Field
     private String title;
 
     /** 作者名 */
     @Column(length = 100)
+    @Field
     private String writername;
 
     /** 解説 */
     @Column
+    @Field
     private String description;
 
     /** 本文 */
     @Column
     @Lob
     @Basic(fetch = FetchType.EAGER)
+    @Field
     private String body;
 
     /** 削除フラグ */
@@ -60,6 +72,7 @@ public class Novel extends BaseObject implements Serializable {
 
     /** 小説の付随情報 */
     @OneToOne(fetch = FetchType.EAGER, mappedBy = "novel", cascade = CascadeType.ALL)
+    @IndexedEmbedded
     private NovelInfo novelInfo;
 
     /** 小説の更新履歴セット */
@@ -68,6 +81,7 @@ public class Novel extends BaseObject implements Serializable {
 
     /** 小説の章リスト */
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "novel", cascade = CascadeType.ALL)
+    @IndexedEmbedded
     private List<NovelChapter> novelChapters = new ArrayList<>();
 
     public void addNovelHistory(NovelHistory novelHistory) {
