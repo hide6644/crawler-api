@@ -23,6 +23,7 @@ import org.hibernate.search.annotations.Field;
 import org.hibernate.search.annotations.Indexed;
 import org.hibernate.search.annotations.IndexedEmbedded;
 
+import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -38,6 +39,7 @@ import lombok.Setter;
 @Setter
 @Getter
 @EqualsAndHashCode(of = { "url" }, callSuper = false)
+@Builder
 public class Novel extends BaseObject implements Serializable {
 
     /** URL */
@@ -77,11 +79,13 @@ public class Novel extends BaseObject implements Serializable {
 
     /** 小説の更新履歴セット */
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "novel", cascade = CascadeType.ALL)
+    @Builder.Default
     private Set<NovelHistory> novelHistories = new HashSet<>();
 
     /** 小説の章リスト */
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "novel", cascade = CascadeType.ALL)
     @IndexedEmbedded
+    @Builder.Default
     private List<NovelChapter> novelChapters = new ArrayList<>();
 
     public void addNovelHistory(NovelHistory novelHistory) {

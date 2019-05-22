@@ -1,5 +1,6 @@
 package crawlerapi.service;
 
+import java.util.Optional;
 import java.util.stream.Stream;
 
 import org.springframework.stereotype.Service;
@@ -16,5 +17,9 @@ public class NovelService {
 
     public Stream<Novel> findAll() {
         return novelRepository.findAll().stream();
+    }
+
+    public Optional<Novel> findById(Long id) {
+        return novelRepository.findById(id);
     }
 }
