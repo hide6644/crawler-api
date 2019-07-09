@@ -1,5 +1,6 @@
 HELP.md
 .gradle
+/bin/
 /build/
 !gradle/wrapper/gradle-wrapper.jar
 
@@ -28,3 +29,6 @@ HELP.md
 
 ### VS Code ###
 .vscode/
+
+### Hibernate Search ###
+/index/
