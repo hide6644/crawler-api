@@ -1,33 +1,25 @@
 package crawlerapi.service;
 
-import java.util.Arrays;
+import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
 import crawlerapi.entity.User;
-import crawlerapi.security.model.Role;
-import reactor.core.publisher.Mono;
+import crawlerapi.repository.UserRepository;
+import lombok.RequiredArgsConstructor;
 
 @Service
+@RequiredArgsConstructor
 public class UserService {
 
-    //username:passwowrd -> user:user
-    private final String userUsername = "user"; // password: user
-    private final User user = new User(userUsername, "cBrlgyL2GI2GINuLUUwgojITuIufFycpLG4490dhGtY=", true,
-            Arrays.asList(Role.ROLE_USER));
+    private final UserRepository userRepository;
 
-    //username:passwowrd -> admin:admin
-    private final String adminUsername = "admin"; // password: admin
-    private final User admin = new User(adminUsername, "dQNjUIMorJb8Ubj2+wVGYp6eAeYkdekqAcnYp+aRq5w=", true,
-            Arrays.asList(Role.ROLE_ADMIN));
+    public Optional<User> save(User user) {
+        // TODO Duplicateした場合の処理追加
+        return Optional.of(userRepository.saveAndFlush(user));
+    }
 
-    public Mono<User> findByUsername(String username) {
-        if (username.equals(userUsername)) {
-            return Mono.just(user);
-        } else if (username.equals(adminUsername)) {
-            return Mono.just(admin);
-        } else {
-            return Mono.empty();
-        }
+    public Optional<User> findByUsername(String username) {
+        return userRepository.findById(username);
     }
 }

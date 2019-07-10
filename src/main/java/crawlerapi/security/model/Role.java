@@ -1,5 +1,7 @@
 package crawlerapi.security.model;
 
-public enum Role {
-    ROLE_USER, ROLE_ADMIN
+import java.io.Serializable;
+
+public enum Role implements Serializable {
+    ROLE_ADMIN, ROLE_USER;
 }
