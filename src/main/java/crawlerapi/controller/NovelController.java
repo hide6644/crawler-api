@@ -19,7 +19,7 @@ public class NovelController {
     private final NovelService novelService;
 
     @GetMapping("/novels")
-    @PreAuthorize("hasRole('USER')")
+    @PreAuthorize("hasRole('ROLE_USER')")
     public Mono<ResponseEntity<NovelSummaryResponse>> findAll() {
         NovelSummaryResponse novelSummaryResponse = NovelSummaryResponse.builder()
                 .novels(novelService.findAll()
@@ -35,7 +35,7 @@ public class NovelController {
     }
 
     @GetMapping("/novels/{id}")
-    @PreAuthorize("hasRole('USER')")
+    @PreAuthorize("hasRole('ROLE_USER')")
     public Mono<ResponseEntity<Novel>> findById(@PathVariable("id") String id) {
         return Mono.just(ResponseEntity.ok(novelService.findById(Long.valueOf(id)).orElseThrow(RuntimeException::new)));
     }

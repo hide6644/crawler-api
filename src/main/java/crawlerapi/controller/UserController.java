@@ -37,7 +37,7 @@ public class UserController {
     }
 
     @GetMapping("/users")
-    @PreAuthorize("hasRole('USER')")
+    @PreAuthorize("hasRole('ROLE_USER')")
     public Mono<ResponseEntity<User>> findByUser(@RequestParam("username") String username) {
         return Mono.just(ResponseEntity.ok(userService.findByUsername(username).orElseGet(User::new)))
                 .defaultIfEmpty(ResponseEntity.status(HttpStatus.NOT_FOUND).build());

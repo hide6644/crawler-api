@@ -23,9 +23,11 @@ import org.hibernate.search.annotations.Field;
 import org.hibernate.search.annotations.Indexed;
 import org.hibernate.search.annotations.IndexedEmbedded;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 /**
@@ -36,10 +38,12 @@ import lombok.Setter;
 @Indexed
 @Analyzer(impl = JapaneseAnalyzer.class)
 @XmlRootElement
+@AllArgsConstructor
+@NoArgsConstructor
 @Setter
 @Getter
-@EqualsAndHashCode(of = { "url" }, callSuper = false)
 @Builder
+@EqualsAndHashCode(of = { "url" }, callSuper = false)
 public class Novel extends BaseObject implements Serializable {
 
     /** URL */
