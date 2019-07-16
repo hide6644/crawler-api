@@ -1,4 +1,4 @@
-package crawlerapi.controller;
+package crawlerapi.controller.model;
 
 import java.util.stream.Stream;
 
