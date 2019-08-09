@@ -1,9 +1,12 @@
 package crawlerapi.controller;
 
+import java.util.stream.Stream;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import crawlerapi.controller.model.NovelSummaryResponse;
@@ -21,16 +24,19 @@ public class NovelController {
     private final NovelService novelService;
 
     @GetMapping("/novels")
-    public Mono<ResponseEntity<NovelSummaryResponse>> findAll() {
+    public Mono<ResponseEntity<NovelSummaryResponse>> search(
+            @RequestParam(value = "search", required = false) String searchParameters) {
+        Stream<Novel> novels = searchParameters == null
+                ? novelService.findAll()
+                : novelService.search(searchParameters);
         NovelSummaryResponse novelSummaryResponse = NovelSummaryResponse.builder()
-                .novels(novelService.findAll()
-                        .map(novel -> NovelSummary.builder()
-                                .id(novel.getId())
-                                .url(novel.getUrl())
-                                .title(novel.getTitle())
-                                .writername(novel.getWritername())
-                                .description(novel.getDescription())
-                                .build()))
+                .novels(novels.map(novel -> NovelSummary.builder()
+                        .id(novel.getId())
+                        .url(novel.getUrl())
+                        .title(novel.getTitle())
+                        .writername(novel.getWritername())
+                        .description(novel.getDescription())
+                        .build()))
                 .build();
         return Mono.just(ResponseEntity.ok(novelSummaryResponse));
     }
