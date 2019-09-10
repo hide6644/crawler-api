@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import crawlerapi.controller.model.NovelSummaryResponse;
+import crawlerapi.dto.NovelInfoSummary;
 import crawlerapi.dto.NovelSummary;
 import crawlerapi.entity.Novel;
 import crawlerapi.service.NovelService;
@@ -36,6 +37,10 @@ public class NovelController {
                         .title(novel.getTitle())
                         .writername(novel.getWritername())
                         .description(novel.getDescription())
+                        .novelInfoSummary(
+                                NovelInfoSummary.builder()
+                                        .favorite(novel.getNovelInfo().isFavorite())
+                                        .build())
                         .build()))
                 .build();
         return Mono.just(ResponseEntity.ok(novelSummaryResponse));
