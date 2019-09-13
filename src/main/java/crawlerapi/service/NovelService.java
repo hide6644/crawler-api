@@ -20,15 +20,19 @@ public class NovelService {
 
     private final NovelRepository novelRepository;
 
+    public void updateFavorite(final Long id, final boolean favorite) {
+        novelRepository.findById(id).ifPresent(novel -> novel.getNovelInfo().setFavorite(favorite));
+    }
+
     public Stream<Novel> findAll() {
         return novelRepository.findAll().stream();
     }
 
-    public Optional<Novel> findById(Long id) {
+    public Optional<Novel> findById(final Long id) {
         return novelRepository.findById(id);
     }
 
-    public Stream<Novel> search(String searchParameters) {
+    public Stream<Novel> search(final String searchParameters) {
         NovelSpecificationsBuilder builder = new NovelSpecificationsBuilder();
         String operationSetExper = String.join("|", SearchOperation.SIMPLE_OPERATION_SET);
         Pattern pattern = Pattern.compile(
