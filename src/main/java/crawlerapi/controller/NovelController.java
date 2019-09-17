@@ -28,7 +28,7 @@ public class NovelController {
 
     @PutMapping("/novels/{id}/favorite")
     public Mono<ResponseEntity<NovelInfoSummary>> updateFavorite(@PathVariable("id") Long novelId, @RequestBody boolean favorite) {
-        novelService.updateFavorite(novelId, favorite);
+        novelService.saveFavorite(novelId, favorite);
         return Mono.just(ResponseEntity.ok(NovelInfoSummary.builder()
                 .favorite(favorite)
                 .build()));
@@ -58,6 +58,6 @@ public class NovelController {
 
     @GetMapping("/novels/{id}")
     public Mono<ResponseEntity<Novel>> findById(@PathVariable("id") String id) {
-        return Mono.just(ResponseEntity.ok(novelService.findById(Long.valueOf(id)).orElseThrow(RuntimeException::new)));
+        return Mono.just(ResponseEntity.ok(novelService.findById(Long.valueOf(id))));
     }
 }

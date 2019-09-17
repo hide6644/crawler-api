@@ -1,6 +1,5 @@
 package crawlerapi.service;
 
-import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Stream;
@@ -9,6 +8,7 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import crawlerapi.entity.Novel;
+import crawlerapi.exception.NovelNotFoundException;
 import crawlerapi.repository.NovelRepository;
 import crawlerapi.repository.NovelSpecificationsBuilder;
 import crawlerapi.repository.SearchOperation;
@@ -20,16 +20,18 @@ public class NovelService {
 
     private final NovelRepository novelRepository;
 
-    public void updateFavorite(final Long id, final boolean favorite) {
-        novelRepository.findById(id).ifPresent(novel -> novel.getNovelInfo().setFavorite(favorite));
+    public void saveFavorite(final Long id, final boolean favorite) {
+        Novel novel = findById(id);
+        novel.getNovelInfo().setFavorite(favorite);
+        novelRepository.save(novel);
     }
 
     public Stream<Novel> findAll() {
         return novelRepository.findAll().stream();
     }
 
-    public Optional<Novel> findById(final Long id) {
-        return novelRepository.findById(id);
+    public Novel findById(final Long id) {
+        return novelRepository.findById(id).orElseThrow(NovelNotFoundException::new);
     }
 
     public Stream<Novel> search(final String searchParameters) {
