@@ -2,6 +2,8 @@ package crawlerapi.controller;
 
 import java.util.Arrays;
 
+import javax.validation.Valid;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -29,8 +31,7 @@ public class UserController {
     private final UserService userService;
 
     @PostMapping("/signup")
-    public Mono<ResponseEntity<User>> signup(@RequestBody SignupRequest request) {
-        // TODO Duplicateした場合の処理追加
+    public Mono<ResponseEntity<User>> signup(@Valid @RequestBody SignupRequest request) {
         return Mono.just(ResponseEntity.ok(userService.save(User.builder()
                 .username(request.getUsername())
                 .password(passwordEncoder.encode(request.getPassword()))
