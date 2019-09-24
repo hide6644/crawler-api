@@ -4,7 +4,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Stream;
 
-import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import crawlerapi.entity.Novel;
@@ -48,7 +47,6 @@ public class NovelService {
                     matcher.group(5), matcher.group(4), matcher.group(6));
         }
 
-        Specification<Novel> spec = builder.build();
-        return novelRepository.findAll(spec).stream();
+        return novelRepository.findAll(builder.build()).stream();
     }
 }
