@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import crawlerapi.controller.model.NovelSummariesResponse;
 import crawlerapi.controller.model.NovelSummaryResponse;
 import crawlerapi.dto.NovelInfoSummary;
 import crawlerapi.dto.NovelSummary;
@@ -35,12 +36,12 @@ public class NovelController {
     }
 
     @GetMapping("/novels")
-    public Mono<ResponseEntity<NovelSummaryResponse>> search(
+    public Mono<ResponseEntity<NovelSummariesResponse>> search(
             @RequestParam(value = "search", required = false) String searchParameters) {
         Stream<Novel> novels = searchParameters == null
                 ? novelService.findAll()
                 : novelService.search(searchParameters);
-        NovelSummaryResponse novelSummaryResponse = NovelSummaryResponse.builder()
+        NovelSummariesResponse novelSummariesResponse = NovelSummariesResponse.builder()
                 .novels(novels.map(novel -> NovelSummary.builder()
                         .id(novel.getId())
                         .url(novel.getUrl())
@@ -53,11 +54,21 @@ public class NovelController {
                                         .build())
                         .build()))
                 .build();
-        return Mono.just(ResponseEntity.ok(novelSummaryResponse));
+        return Mono.just(ResponseEntity.ok(novelSummariesResponse));
     }
 
     @GetMapping("/novels/{id}")
-    public Mono<ResponseEntity<Novel>> findById(@PathVariable("id") String id) {
-        return Mono.just(ResponseEntity.ok(novelService.findById(Long.valueOf(id))));
+    public Mono<ResponseEntity<NovelSummaryResponse>> findById(@PathVariable("id") String id) {
+        Novel novel = novelService.findById(Long.valueOf(id));
+        NovelSummaryResponse novelSummaryResponse = NovelSummaryResponse.builder()
+                .novel(NovelSummary.builder()
+                        .id(novel.getId())
+                        .url(novel.getUrl())
+                        .title(novel.getTitle())
+                        .writername(novel.getWritername())
+                        .description(novel.getDescription())
+                        .build())
+                .build();
+        return Mono.just(ResponseEntity.ok(novelSummaryResponse));
     }
 }
