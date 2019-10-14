@@ -47,7 +47,10 @@ public class WebSecurityConfig {
                 .securityContextRepository(securityContextRepository)
                 .authorizeExchange()
                 .pathMatchers(HttpMethod.OPTIONS).permitAll()
-                .pathMatchers("/login").permitAll()
+                .pathMatchers("/crawler-api/login").permitAll()
+                .pathMatchers("/crawler-api/signup").permitAll()
+                .pathMatchers("/crawler-api/users*").hasAuthority("ROLE_USER")
+                .pathMatchers("/crawler-api/novels*").hasAuthority("ROLE_USER")
                 .anyExchange().authenticated()
                 .and().build();
     }

@@ -1,6 +1,4 @@
-package crawlerapi.controller;
-
-import java.util.stream.Stream;
+package crawlerapi.controller.model;
 
 import crawlerapi.dto.NovelSummary;
 import lombok.Builder;
@@ -10,5 +8,5 @@ import lombok.Getter;
 @Builder
 public class NovelSummaryResponse {
 
-    private final Stream<NovelSummary> novels;
+    private final NovelSummary novel;
 }

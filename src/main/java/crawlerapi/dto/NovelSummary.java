@@ -24,6 +24,8 @@ public class NovelSummary implements Serializable {
 
     private final boolean deleted;
 
+    private final NovelInfoSummary novelInfoSummary;
+
     public Novel toEntity() {
         Novel novel = Novel.builder()
                 .url(url)
