@@ -67,6 +67,16 @@ public class NovelController {
                         .title(novel.getTitle())
                         .writername(novel.getWritername())
                         .description(novel.getDescription())
+                        .novelInfoSummary(
+                                NovelInfoSummary.builder()
+                                        .checkedDate(novel.getNovelInfo().getCheckedDate())
+                                        .modifiedDate(novel.getNovelInfo().getModifiedDate())
+                                        .finished(novel.getNovelInfo().isFinished())
+                                        .keyword(novel.getNovelInfo().getKeyword())
+                                        .favorite(novel.getNovelInfo().isFavorite())
+                                        .rank(novel.getNovelInfo().getRank())
+                                        .checkEnable(novel.getNovelInfo().isCheckEnable())
+                                        .build())
                         .build())
                 .build();
         return Mono.just(ResponseEntity.ok(novelSummaryResponse));
