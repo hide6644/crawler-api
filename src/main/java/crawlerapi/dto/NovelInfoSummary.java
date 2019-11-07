@@ -13,9 +13,9 @@ public class NovelInfoSummary implements Serializable {
 
     private final Long id;
 
-    private final LocalDateTime checkedDate;
+    private final String checkedDate;
 
-    private final LocalDateTime modifiedDate;
+    private final String modifiedDate;
 
     private final boolean finished;
 
@@ -29,8 +29,8 @@ public class NovelInfoSummary implements Serializable {
 
     public NovelInfo toEntity() {
         NovelInfo novelInfo = NovelInfo.builder()
-                .checkedDate(checkedDate)
-                .modifiedDate(modifiedDate)
+                .checkedDate(LocalDateTime.parse(checkedDate))
+                .modifiedDate(LocalDateTime.parse(modifiedDate))
                 .finished(finished)
                 .keyword(keyword)
                 .favorite(favorite)

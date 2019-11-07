@@ -69,8 +69,8 @@ public class NovelController {
                         .description(novel.getDescription())
                         .novelInfoSummary(
                                 NovelInfoSummary.builder()
-                                        .checkedDate(novel.getNovelInfo().getCheckedDate())
-                                        .modifiedDate(novel.getNovelInfo().getModifiedDate())
+                                        .checkedDate(novel.getNovelInfo().getCheckedDate().toString())
+                                        .modifiedDate(novel.getNovelInfo().getModifiedDate().toString())
                                         .finished(novel.getNovelInfo().isFinished())
                                         .keyword(novel.getNovelInfo().getKeyword())
                                         .favorite(novel.getNovelInfo().isFavorite())
