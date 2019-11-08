@@ -2,6 +2,8 @@ package crawlerapi.dto;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.util.Date;
 
 import crawlerapi.entity.NovelInfo;
 import lombok.Builder;
@@ -13,9 +15,9 @@ public class NovelInfoSummary implements Serializable {
 
     private final Long id;
 
-    private final String checkedDate;
+    private final Date checkedDate;
 
-    private final String modifiedDate;
+    private final Date modifiedDate;
 
     private final boolean finished;
 
@@ -29,8 +31,8 @@ public class NovelInfoSummary implements Serializable {
 
     public NovelInfo toEntity() {
         NovelInfo novelInfo = NovelInfo.builder()
-                .checkedDate(LocalDateTime.parse(checkedDate))
-                .modifiedDate(LocalDateTime.parse(modifiedDate))
+                .checkedDate(LocalDateTime.ofInstant(checkedDate.toInstant(), ZoneId.systemDefault()))
+                .modifiedDate(LocalDateTime.ofInstant(modifiedDate.toInstant(), ZoneId.systemDefault()))
                 .finished(finished)
                 .keyword(keyword)
                 .favorite(favorite)

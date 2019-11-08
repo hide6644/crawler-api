@@ -68,7 +68,7 @@ public class Novel extends BaseObject implements Serializable {
     /** 本文 */
     @Column
     @Lob
-    @Basic(fetch = FetchType.EAGER)
+    @Basic(fetch = FetchType.LAZY)
     @Field
     private String body;
 
@@ -77,17 +77,17 @@ public class Novel extends BaseObject implements Serializable {
     private boolean deleted;
 
     /** 小説の付随情報 */
-    @OneToOne(fetch = FetchType.EAGER, mappedBy = "novel", cascade = CascadeType.ALL)
+    @OneToOne(fetch = FetchType.LAZY, mappedBy = "novel", cascade = CascadeType.ALL)
     @IndexedEmbedded
     private NovelInfo novelInfo;
 
     /** 小説の更新履歴セット */
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "novel", cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "novel", cascade = CascadeType.ALL)
     @Builder.Default
     private Set<NovelHistory> novelHistories = new HashSet<>();
 
     /** 小説の章リスト */
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "novel", cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "novel", cascade = CascadeType.ALL)
     @IndexedEmbedded
     @Builder.Default
     private List<NovelChapter> novelChapters = new ArrayList<>();

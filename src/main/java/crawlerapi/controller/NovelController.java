@@ -1,5 +1,8 @@
 package crawlerapi.controller;
 
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.util.Date;
 import java.util.stream.Stream;
 
 import org.springframework.http.ResponseEntity;
@@ -69,8 +72,8 @@ public class NovelController {
                         .description(novel.getDescription())
                         .novelInfoSummary(
                                 NovelInfoSummary.builder()
-                                        .checkedDate(novel.getNovelInfo().getCheckedDate().toString())
-                                        .modifiedDate(novel.getNovelInfo().getModifiedDate().toString())
+                                        .checkedDate(Date.from(ZonedDateTime.of(novel.getNovelInfo().getCheckedDate(), ZoneId.systemDefault()).toInstant()))
+                                        .modifiedDate(Date.from(ZonedDateTime.of(novel.getNovelInfo().getModifiedDate(), ZoneId.systemDefault()).toInstant()))
                                         .finished(novel.getNovelInfo().isFinished())
                                         .keyword(novel.getNovelInfo().getKeyword())
                                         .favorite(novel.getNovelInfo().isFavorite())

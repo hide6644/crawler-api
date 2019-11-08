@@ -16,6 +16,14 @@ spring:
             directory_provider: filesystem
             indexBase: ./index
 
+logging:
+  level:
+    org.hibernate: 
+      SQL: debug
+      type:
+        EnumType: trace
+        descriptor.sql.BasicBinder: trace
+
 crawler-api:
   password:
     encoder:

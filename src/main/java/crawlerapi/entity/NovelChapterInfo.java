@@ -40,7 +40,7 @@ public class NovelChapterInfo extends BaseObject implements Serializable {
     private LocalDateTime readDate;
 
     /** 小説の章 */
-    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "novel_chapter_id")
     private NovelChapter novelChapter;
 }

@@ -91,7 +91,7 @@ public class NovelInfo extends BaseObject implements Serializable {
     private boolean checkEnable;
 
     /** 小説 */
-    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "novel_id")
     @ContainedIn
     private Novel novel;
