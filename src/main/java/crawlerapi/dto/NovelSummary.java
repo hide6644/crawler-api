@@ -34,6 +34,7 @@ public class NovelSummary implements Serializable {
                 .description(description)
                 .body(body)
                 .deleted(deleted)
+                .novelInfo(novelInfoSummary.toEntity())
                 .build();
         novel.setId(id);
         return novel;

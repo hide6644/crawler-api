@@ -50,20 +50,20 @@ public class NovelChapter extends BaseObject implements Serializable {
     /** 本文 */
     @Column
     @Lob
-    @Basic(fetch = FetchType.EAGER)
+    @Basic(fetch = FetchType.LAZY)
     @Field
     private String body;
 
     /** 小説の章の付随情報 */
-    @OneToOne(fetch = FetchType.EAGER, mappedBy = "novelChapter", cascade = CascadeType.ALL)
+    @OneToOne(fetch = FetchType.LAZY, mappedBy = "novelChapter", cascade = CascadeType.ALL)
     private NovelChapterInfo novelChapterInfo;
 
     /** 小説の章の更新履歴セット */
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "novelChapter", cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "novelChapter", cascade = CascadeType.ALL)
     private Set<NovelChapterHistory> novelChapterHistories = new HashSet<>();
 
     /** 小説 */
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "novel_id")
     @ContainedIn
     private Novel novel;

@@ -32,7 +32,9 @@ import org.hibernate.search.annotations.Indexed;
 import org.hibernate.search.annotations.IndexedEmbedded;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 /**
@@ -41,8 +43,11 @@ import lombok.Setter;
 @Entity
 @Table(name = "novel_info")
 @Indexed
+@AllArgsConstructor
+@NoArgsConstructor
 @Setter
 @Getter
+@Builder
 public class NovelInfo extends BaseObject implements Serializable {
 
     /** ログ出力クラス */
@@ -70,6 +75,7 @@ public class NovelInfo extends BaseObject implements Serializable {
     @Transient
     @OneToMany
     @IndexedEmbedded
+    @Builder.Default
     private Set<KeywordWrap> keywordSet = new HashSet<>();
 
     /** お気に入りフラグ */
@@ -85,7 +91,7 @@ public class NovelInfo extends BaseObject implements Serializable {
     private boolean checkEnable;
 
     /** 小説 */
-    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "novel_id")
     @ContainedIn
     private Novel novel;
