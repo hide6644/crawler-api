@@ -22,8 +22,11 @@ import org.hibernate.search.annotations.ContainedIn;
 import org.hibernate.search.annotations.Field;
 import org.hibernate.search.annotations.Indexed;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 /**
@@ -33,8 +36,11 @@ import lombok.Setter;
 @Table(name = "novel_chapter")
 @Indexed
 @Analyzer(impl = JapaneseAnalyzer.class)
+@AllArgsConstructor
+@NoArgsConstructor
 @Setter
 @Getter
+@Builder
 @EqualsAndHashCode(of = { "url" }, callSuper = false)
 public class NovelChapter extends BaseObject implements Serializable {
 
@@ -60,6 +66,7 @@ public class NovelChapter extends BaseObject implements Serializable {
 
     /** 小説の章の更新履歴セット */
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "novelChapter", cascade = CascadeType.ALL)
+    @Builder.Default
     private Set<NovelChapterHistory> novelChapterHistories = new HashSet<>();
 
     /** 小説 */

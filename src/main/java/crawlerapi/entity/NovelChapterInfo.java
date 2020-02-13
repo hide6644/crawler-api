@@ -11,7 +11,10 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 /**
@@ -19,8 +22,11 @@ import lombok.Setter;
  */
 @Entity
 @Table(name = "novel_chapter_info")
+@AllArgsConstructor
+@NoArgsConstructor
 @Setter
 @Getter
+@Builder
 public class NovelChapterInfo extends BaseObject implements Serializable {
 
     /** 最終確認日時 */
