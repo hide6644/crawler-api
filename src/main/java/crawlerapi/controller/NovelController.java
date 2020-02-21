@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import crawlerapi.controller.model.NovelSummariesResponse;
 import crawlerapi.controller.model.NovelSummaryResponse;
+import crawlerapi.dto.NovelChapterInfoSummary;
+import crawlerapi.dto.NovelChapterSummary;
 import crawlerapi.dto.NovelInfoSummary;
 import crawlerapi.dto.NovelSummary;
 import crawlerapi.entity.Novel;
@@ -70,8 +72,10 @@ public class NovelController {
                         .title(novel.getTitle())
                         .writername(novel.getWritername())
                         .description(novel.getDescription())
+                        // .body(novel.getBody())
                         .novelInfoSummary(
                                 NovelInfoSummary.builder()
+                                        .id(novel.getNovelInfo().getId())
                                         .checkedDate(Date.from(ZonedDateTime.of(novel.getNovelInfo().getCheckedDate(), ZoneId.systemDefault()).toInstant()))
                                         .modifiedDate(Date.from(ZonedDateTime.of(novel.getNovelInfo().getModifiedDate(), ZoneId.systemDefault()).toInstant()))
                                         .finished(novel.getNovelInfo().isFinished())
@@ -80,6 +84,21 @@ public class NovelController {
                                         .rank(novel.getNovelInfo().getRank())
                                         .checkEnable(novel.getNovelInfo().isCheckEnable())
                                         .build())
+                        .novelChapterSummary(novel.getNovelChapters().stream().map(novelChapter ->
+                                NovelChapterSummary.builder()
+                                        .id(novelChapter.getId())
+                                        .url(novelChapter.getUrl())
+                                        .title(novelChapter.getTitle())
+                                        // .body(novelChapter.getBody())
+                                        .novelChapterInfoSummary(
+                                                NovelChapterInfoSummary.builder()
+                                                .id(novelChapter.getNovelChapterInfo().getId())
+                                                .checkedDate(Date.from(ZonedDateTime.of(novelChapter.getNovelChapterInfo().getCheckedDate(), ZoneId.systemDefault()).toInstant()))
+                                                .modifiedDate(Date.from(ZonedDateTime.of(novelChapter.getNovelChapterInfo().getModifiedDate(), ZoneId.systemDefault()).toInstant()))
+                                                .unread(novelChapter.getNovelChapterInfo().isUnread())
+                                                .readDate(Date.from(ZonedDateTime.of(novelChapter.getNovelChapterInfo().getReadDate(), ZoneId.systemDefault()).toInstant()))
+                                                .build())
+                                        .build()))
                         .build())
                 .build();
         return Mono.just(ResponseEntity.ok(novelSummaryResponse));

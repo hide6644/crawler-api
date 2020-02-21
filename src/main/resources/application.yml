@@ -6,10 +6,11 @@ spring:
     url: jdbc:mysql://localhost:3306/crawler?zeroDateTimeBehavior=CONVERT_TO_NULL&characterEncoding=UTF-8&serverTimezone=JST
     username: root
     password: 
-    driver-class-name: com.mysql.cj.jdbc.Driver
+    driver-class-name: org.mariadb.jdbc.Driver
   jpa:
     properties:
       hibernate:
+        enable_lazy_load_no_trans: true
         search:
           lucene_version: LUCENE_CURRENT
           default:

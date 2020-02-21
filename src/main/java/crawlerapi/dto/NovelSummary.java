@@ -1,6 +1,8 @@
 package crawlerapi.dto;
 
 import java.io.Serializable;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import crawlerapi.entity.Novel;
 import lombok.Builder;
@@ -26,6 +28,8 @@ public class NovelSummary implements Serializable {
 
     private final NovelInfoSummary novelInfoSummary;
 
+    private final Stream<NovelChapterSummary> novelChapterSummary;
+
     public Novel toEntity() {
         Novel novel = Novel.builder()
                 .url(url)
@@ -35,6 +39,7 @@ public class NovelSummary implements Serializable {
                 .body(body)
                 .deleted(deleted)
                 .novelInfo(novelInfoSummary.toEntity())
+                .novelChapters(novelChapterSummary.map(novelChapter -> novelChapter.toEntity()).collect(Collectors.toList()))
                 .build();
         novel.setId(id);
         return novel;
