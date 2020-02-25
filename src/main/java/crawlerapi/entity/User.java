@@ -55,6 +55,11 @@ public class User implements UserDetails {
     @Column(nullable = false, length = 80)
     private String password;
 
+    @Column(nullable = false, length = 64, unique = true)
+    @Getter
+    @Setter
+    private String email;
+
     @Column(nullable = false)
     @Getter
     @Setter

@@ -35,6 +35,7 @@ public class UserController {
         return Mono.just(ResponseEntity.ok(userService.save(User.builder()
                 .username(request.getUsername())
                 .password(passwordEncoder.encode(request.getPassword()))
+                .email(request.getEmail())
                 .enabled(true)
                 .roles(Arrays.asList(Role.ROLE_USER)).build()).orElseGet(User::new)));
     }
