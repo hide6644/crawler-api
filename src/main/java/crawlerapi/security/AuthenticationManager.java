@@ -37,9 +37,11 @@ public class AuthenticationManager implements ReactiveAuthenticationManager {
             @SuppressWarnings("unchecked")
             List<String> rolesMap = claims.get("role", List.class);
             List<Role> roles = new ArrayList<>();
+
             for (String rolemap : rolesMap) {
                 roles.add(Role.valueOf(rolemap));
             }
+
             UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(
                     username,
                     null,

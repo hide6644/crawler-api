@@ -13,12 +13,12 @@ import crawlerapi.security.PBKDF2Encoder;
 import crawlerapi.security.model.AuthRequest;
 import crawlerapi.security.model.AuthResponse;
 import crawlerapi.service.UserService;
-import lombok.RequiredArgsConstructor;
+import lombok.AllArgsConstructor;
 import reactor.core.publisher.Mono;
 
+@AllArgsConstructor
 @RestController
 @RequestMapping("/crawler-api")
-@RequiredArgsConstructor
 public class AuthenticationController {
 
     private final JWTUtil jwtUtil;
@@ -31,7 +31,7 @@ public class AuthenticationController {
     public Mono<ResponseEntity<?>> login(@RequestBody AuthRequest ar) {
         return Mono.just(userRepository.findByUsername(ar.getUsername())).map(userDetails -> {
             if (passwordEncoder.encode(ar.getPassword()).equals(userDetails.orElseGet(User::new).getPassword())) {
-                return ResponseEntity.ok(new AuthResponse(jwtUtil.generateToken(userDetails.orElseGet(User::new))));
+                return ResponseEntity.ok(AuthResponse.builder().token(jwtUtil.generateToken(userDetails.orElseGet(User::new))).build());
             } else {
                 return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
             }

@@ -18,12 +18,12 @@ import crawlerapi.entity.User;
 import crawlerapi.security.PBKDF2Encoder;
 import crawlerapi.security.model.Role;
 import crawlerapi.service.UserService;
-import lombok.RequiredArgsConstructor;
+import lombok.AllArgsConstructor;
 import reactor.core.publisher.Mono;
 
+@AllArgsConstructor
 @RestController
 @RequestMapping("/crawler-api")
-@RequiredArgsConstructor
 public class UserController {
 
     private final PBKDF2Encoder passwordEncoder;

@@ -1,12 +1,11 @@
 package crawlerapi.security.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
 
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
-public class AuthResponse {
-    private String token;
+@Builder
+@Getter
+public final class AuthResponse {
+
+    private final String token;
 }

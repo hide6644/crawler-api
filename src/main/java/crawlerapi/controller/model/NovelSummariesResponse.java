@@ -6,9 +6,9 @@ import crawlerapi.dto.NovelSummary;
 import lombok.Builder;
 import lombok.Getter;
 
-@Getter
 @Builder
-public class NovelSummariesResponse {
+@Getter
+public final class NovelSummariesResponse {
 
     private final Stream<NovelSummary> novels;
 }
