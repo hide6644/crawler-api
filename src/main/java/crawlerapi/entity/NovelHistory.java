@@ -17,10 +17,10 @@ import lombok.Setter;
 /**
  * 小説の更新履歴
  */
-@Entity
-@Table(name = "novel_history")
 @Setter
 @Getter
+@Entity
+@Table(name = "novel_history")
 public class NovelHistory extends BaseObject implements Serializable {
 
     /** タイトル */

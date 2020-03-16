@@ -20,13 +20,13 @@ import lombok.Setter;
 /**
  * 小説の章の付随情報
  */
-@Entity
-@Table(name = "novel_chapter_info")
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 @Setter
 @Getter
-@Builder
+@Entity
+@Table(name = "novel_chapter_info")
 public class NovelChapterInfo extends BaseObject implements Serializable {
 
     /** 最終確認日時 */

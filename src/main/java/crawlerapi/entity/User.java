@@ -34,81 +34,82 @@ import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
+@AllArgsConstructor
+@RequiredArgsConstructor
+@NoArgsConstructor
+@Builder
+@Getter
+@Setter
+@EqualsAndHashCode()
+@ToString
 @Entity
 @Table(name = "app_user")
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.PROPERTY)
-@AllArgsConstructor
-@NoArgsConstructor
-@ToString
-@Builder
-@EqualsAndHashCode(of = { "username" })
 public class User implements UserDetails {
 
+    @NonNull
     @Id
     @Column(nullable = false, length = 16, unique = true)
     private String username;
 
+    @EqualsAndHashCode.Exclude
     @Column(nullable = false, length = 80)
     private String password;
 
+    @EqualsAndHashCode.Exclude
     @Column(nullable = false, length = 64, unique = true)
-    @Getter
-    @Setter
     private String email;
 
+    @EqualsAndHashCode.Exclude
     @Column(nullable = false)
-    @Getter
-    @Setter
     private Boolean enabled;
 
+    @EqualsAndHashCode.Exclude
     @Column(nullable = false)
     @CollectionTable(name = "app_user_roles", joinColumns = @JoinColumn(name = "username"))
     @Enumerated(EnumType.STRING)
     @ElementCollection(targetClass = Role.class, fetch = FetchType.EAGER)
-    @Getter
-    @Setter
     private List<Role> roles;
 
     /** 更新回数 */
+    @EqualsAndHashCode.Exclude
     @Version
     @XmlTransient
     private Long version;
 
     /** 登録ユーザ */
+    @EqualsAndHashCode.Exclude
     @Column(name = "create_user")
     @XmlTransient
     private String createUser;
 
     /** 登録日時 */
+    @EqualsAndHashCode.Exclude
     @Column(name = "create_date", updatable = false)
     @XmlTransient
     private LocalDateTime createDate;
 
     /** 更新ユーザ */
+    @EqualsAndHashCode.Exclude
     @Column(name = "update_user")
     @XmlTransient
     private String updateUser;
 
     /** 更新日時 */
+    @EqualsAndHashCode.Exclude
     @Column(name = "update_date")
     @XmlTransient
     private LocalDateTime updateDate;
 
-    public User(String username) {
-        this.username = username;
-    }
-
     @Override
     public String getUsername() {
         return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
     }
 
     @Override
@@ -137,8 +138,8 @@ public class User implements UserDetails {
                 .collect(Collectors.toList());
     }
 
-    @JsonIgnore
     @Override
+    @JsonIgnore
     public String getPassword() {
         return password;
     }
