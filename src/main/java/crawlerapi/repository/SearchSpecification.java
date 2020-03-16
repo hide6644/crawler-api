@@ -7,16 +7,15 @@ import javax.persistence.criteria.Root;
 
 import org.springframework.data.jpa.domain.Specification;
 
-import crawlerapi.entity.Novel;
 import lombok.AllArgsConstructor;
 
 @AllArgsConstructor
-public class NovelSpecification implements Specification<Novel> {
+public class SearchSpecification<T> implements Specification<T> {
 
     private final SearchCriteria criteria;
 
     @Override
-    public Predicate toPredicate(Root<Novel> root, CriteriaQuery<?> query, CriteriaBuilder builder) {
+    public Predicate toPredicate(Root<T> root, CriteriaQuery<?> query, CriteriaBuilder builder) {
         switch (criteria.getOperation()) {
         case EQUALITY:
             return builder.equal(root.get(criteria.getKey()), criteria.getValue());

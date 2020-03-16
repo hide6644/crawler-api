@@ -9,12 +9,12 @@ import org.springframework.stereotype.Service;
 import crawlerapi.entity.Novel;
 import crawlerapi.exception.NovelNotFoundException;
 import crawlerapi.repository.NovelRepository;
-import crawlerapi.repository.NovelSpecificationsBuilder;
 import crawlerapi.repository.SearchOperation;
-import lombok.RequiredArgsConstructor;
+import crawlerapi.repository.SearchSpecificationsBuilder;
+import lombok.AllArgsConstructor;
 
+@AllArgsConstructor
 @Service
-@RequiredArgsConstructor
 public class NovelService {
 
     private final NovelRepository novelRepository;
@@ -34,7 +34,7 @@ public class NovelService {
     }
 
     public Stream<Novel> search(final String searchParameters) {
-        NovelSpecificationsBuilder builder = new NovelSpecificationsBuilder();
+        SearchSpecificationsBuilder<Novel> builder = new SearchSpecificationsBuilder<>();
         String operationSetExper = String.join("|", SearchOperation.SIMPLE_OPERATION_SET);
         Pattern pattern = Pattern.compile(
                 "(\\p{Punct}?)(\\w+?)(" + operationSetExper + ")(\\p{Punct}?)(\\w+?)(\\p{Punct}?),",

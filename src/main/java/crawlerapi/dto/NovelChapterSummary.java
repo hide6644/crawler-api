@@ -6,8 +6,8 @@ import crawlerapi.entity.NovelChapter;
 import lombok.Builder;
 import lombok.Data;
 
-@Data
 @Builder
+@Data
 public class NovelChapterSummary implements Serializable {
 
     private final Long id;

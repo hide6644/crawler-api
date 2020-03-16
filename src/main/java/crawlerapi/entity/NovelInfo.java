@@ -21,6 +21,7 @@ import javax.persistence.Transient;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.apache.lucene.analysis.core.LowerCaseFilterFactory;
 import org.apache.lucene.analysis.core.WhitespaceAnalyzer;
 import org.hibernate.search.annotations.Analyze;
 import org.hibernate.search.annotations.Analyzer;
@@ -30,6 +31,10 @@ import org.hibernate.search.annotations.FacetEncodingType;
 import org.hibernate.search.annotations.Field;
 import org.hibernate.search.annotations.Indexed;
 import org.hibernate.search.annotations.IndexedEmbedded;
+import org.hibernate.search.annotations.Normalizer;
+import org.hibernate.search.annotations.NormalizerDef;
+import org.hibernate.search.annotations.SortableField;
+import org.hibernate.search.annotations.TokenFilterDef;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -40,14 +45,15 @@ import lombok.Setter;
 /**
  * 小説の付随情報
  */
-@Entity
-@Table(name = "novel_info")
-@Indexed
 @AllArgsConstructor
 @NoArgsConstructor
 @Setter
 @Getter
 @Builder
+@Entity
+@Table(name = "novel_info")
+@Indexed
+@NormalizerDef(name = "novelInfoSort", filters = @TokenFilterDef(factory = LowerCaseFilterFactory.class))
 public class NovelInfo extends BaseObject implements Serializable {
 
     /** ログ出力クラス */
@@ -67,15 +73,17 @@ public class NovelInfo extends BaseObject implements Serializable {
 
     /** キーワード */
     @Column(length = 300)
-    @Field
     @Analyzer(impl = WhitespaceAnalyzer.class)
+    @Field
+    @Field(name = "keywordSort", normalizer = @Normalizer(definition = "novelInfoSort"))
+    @SortableField(forField = "keywordSort")
     private String keyword;
 
     /** キーワードセット */
-    @Transient
-    @OneToMany
-    @IndexedEmbedded
     @Builder.Default
+    @Transient
+    @IndexedEmbedded
+    @OneToMany
     private Set<KeywordWrap> keywordSet = new HashSet<>();
 
     /** お気に入りフラグ */
@@ -106,7 +114,7 @@ public class NovelInfo extends BaseObject implements Serializable {
         final LocalDateTime now = LocalDateTime.now();
         if (finished && checkedDate.isAfter(now.minusDays(45))) {
             // 完了済み、かつ確認日が45日以内の場合
-            log.info("[skip] finished title:" + novel.getTitle());
+            log.info("[skip] finished title:{}", () -> novel.getTitle());
             return false;
         }
 
@@ -114,12 +122,12 @@ public class NovelInfo extends BaseObject implements Serializable {
             // 更新日付が30日以内の場合
             if (checkedDate.isAfter(now.minusDays(Duration.between(modifiedDate, now).dividedBy(2).toDays()))) {
                 // 確認日時が更新日の半分の期間より後の場合
-                log.info("[skip] title:" + novel.getTitle());
+                log.info("[skip] title:{}", () -> novel.getTitle());
                 return false;
             }
         } else if (checkedDate.isAfter(now.minusDays(15))) {
             // 確認日時が15日以内の場合
-            log.info("[skip] title:" + novel.getTitle());
+            log.info("[skip] title:{}", () -> novel.getTitle());
             return false;
         }
 

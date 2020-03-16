@@ -31,6 +31,7 @@ public class UserServiceTests {
         User user = userService.save(User.builder()
                 .username("user1")
                 .password(passwordEncoder.encode("user"))
+                .email("user1@foo.bar")
                 .enabled(true)
                 .roles(Arrays.asList(Role.ROLE_ADMIN, Role.ROLE_USER)).build()).orElseGet(User::new);
         System.out.println(user);

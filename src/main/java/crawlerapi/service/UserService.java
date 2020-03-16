@@ -6,10 +6,10 @@ import org.springframework.stereotype.Service;
 
 import crawlerapi.entity.User;
 import crawlerapi.repository.UserRepository;
-import lombok.RequiredArgsConstructor;
+import lombok.AllArgsConstructor;
 
+@AllArgsConstructor
 @Service
-@RequiredArgsConstructor
 public class UserService {
 
     private final UserRepository userRepository;

@@ -22,12 +22,12 @@ import crawlerapi.dto.NovelInfoSummary;
 import crawlerapi.dto.NovelSummary;
 import crawlerapi.entity.Novel;
 import crawlerapi.service.NovelService;
-import lombok.RequiredArgsConstructor;
+import lombok.AllArgsConstructor;
 import reactor.core.publisher.Mono;
 
+@AllArgsConstructor
 @RestController
 @RequestMapping("/crawler-api")
-@RequiredArgsConstructor
 public class NovelController {
 
     private final NovelService novelService;

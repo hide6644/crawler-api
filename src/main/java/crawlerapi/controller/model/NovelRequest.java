@@ -1,12 +1,10 @@
 package crawlerapi.controller.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
+@Setter
+@Getter
 public class NovelRequest {
 
     private Long id;
