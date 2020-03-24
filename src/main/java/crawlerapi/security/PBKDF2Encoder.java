@@ -12,7 +12,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 @Component
-public class PBKDF2Encoder implements PasswordEncoder {
+public final class PBKDF2Encoder implements PasswordEncoder {
 
     @Value("${crawler-api.password.encoder.secret}")
     private String secret;
@@ -23,17 +23,10 @@ public class PBKDF2Encoder implements PasswordEncoder {
     @Value("${crawler-api.password.encoder.keylength}")
     private Integer keylength;
 
-    /**
-     * More info (https://www.owasp.org/index.php/Hashing_Java)
-     *
-     * @param cs
-     *            password
-     * @return encoded password
-     */
     @Override
-    public String encode(CharSequence cs) {
+    public String encode(final CharSequence cs) {
         try {
-            byte[] result = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA512")
+            final byte[] result = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA512")
                     .generateSecret(
                             new PBEKeySpec(cs.toString().toCharArray(), secret.getBytes(), iteration, keylength))
                     .getEncoded();
@@ -44,7 +37,7 @@ public class PBKDF2Encoder implements PasswordEncoder {
     }
 
     @Override
-    public boolean matches(CharSequence cs, String string) {
+    public boolean matches(final CharSequence cs, final String string) {
         return encode(cs).equals(string);
     }
 }
