@@ -1,5 +1,6 @@
 drop table if exists app_user cascade;
 drop table if exists app_user_roles cascade;
+drop table if exists user_novel_info cascade;
 
 create table app_user (
     username varchar(16) not null,
@@ -19,4 +20,19 @@ create table app_user_roles (
     username varchar(16) not null,
     roles varchar(16) not null,
     primary key (username, roles)
+) engine = InnoDB default character set utf8;
+
+create table user_novel_info (
+    id integer not null auto_increment,
+    username varchar(16) not null,
+    novel_id integer not null,
+    favorite boolean default null,
+    rank integer default null,
+    version integer default null,
+    create_user varchar(16) default null,
+    create_date timestamp,
+    update_user varchar(16) default null,
+    update_date timestamp,
+    primary key (id),
+    foreign key (novel_id) references novel (id)
 ) engine = InnoDB default character set utf8;
