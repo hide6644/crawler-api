@@ -31,6 +31,5 @@ crawler-api:
       secret: mysecret
       iteration: 33
       keylength: 256
-  jjwt: 
-    secret: ThisIsSecretForJWTHS512SignatureAlgorithmThatMUSTHave512bitsKeySize
+  jjwt:
     expiration: 28800

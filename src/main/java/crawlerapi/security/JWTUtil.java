@@ -1,10 +1,11 @@
 package crawlerapi.security;
 
 import java.io.Serializable;
-import java.util.Base64;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+
+import javax.crypto.SecretKey;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -13,19 +14,18 @@ import crawlerapi.entity.User;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.security.Keys;
 
 @Component
 public final class JWTUtil implements Serializable {
 
-    @Value("${crawler-api.jjwt.secret}")
-    private String secret;
-
     @Value("${crawler-api.jjwt.expiration}")
     private String expirationTime;
 
+    private SecretKey key = Keys.secretKeyFor(SignatureAlgorithm.HS512);
+
     public Claims getAllClaimsFromToken(final String token) {
-        return Jwts.parser().setSigningKey(Base64.getEncoder().encodeToString(secret.getBytes())).parseClaimsJws(token)
-                .getBody();
+        return Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token).getBody();
     }
 
     public String getUsernameFromToken(final String token) {
@@ -57,7 +57,7 @@ public final class JWTUtil implements Serializable {
                 .setSubject(username)
                 .setIssuedAt(createdDate)
                 .setExpiration(expirationDate)
-                .signWith(SignatureAlgorithm.HS512, Base64.getEncoder().encodeToString(secret.getBytes()))
+                .signWith(key)
                 .compact();
     }
 

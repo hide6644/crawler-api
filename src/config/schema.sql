@@ -1,6 +1,6 @@
-drop table if exists app_user cascade;
-drop table if exists app_user_roles cascade;
 drop table if exists user_novel_info cascade;
+drop table if exists app_user_roles cascade;
+drop table if exists app_user cascade;
 
 create table app_user (
     username varchar(16) not null,
