@@ -5,18 +5,57 @@ import java.util.List;
 
 import org.springframework.data.jpa.domain.Specification;
 
+/**
+ * 検索仕様を生成するクラス.
+ */
 public class SearchSpecificationsBuilder<T> {
 
+    /** 検索条件の一覧 */
     private final List<SearchCriteria> params;
 
+    /**
+     * デフォルト・コンストラクタ.
+     */
     public SearchSpecificationsBuilder() {
         params = new ArrayList<>();
     }
 
+    /**
+     * 検索仕様を生成するクラスをインスタンス化する.
+     *
+     * @param key
+     *            キー
+     * @param operation
+     *            操作
+     * @param value
+     *            値
+     * @param prefix
+     *            接頭辞
+     * @param suffix
+     *            接尾辞
+     * @return 検索仕様を生成するクラス
+     */
     public final SearchSpecificationsBuilder<T> with(final String key, final String operation, final Object value, final String prefix, final String suffix) {
         return with(null, key, operation, value, prefix, suffix);
     }
 
+    /**
+     * 検索仕様を生成するクラスをインスタンス化する.
+     *
+     * @param orPredicate
+     *            OR述語 true:OR、false:AND
+     * @param key
+     *            キー
+     * @param operation
+     *            操作
+     * @param value
+     *            値
+     * @param prefix
+     *            接頭辞
+     * @param suffix
+     *            接尾辞
+     * @return 検索仕様を生成するクラス
+     */
     public final SearchSpecificationsBuilder<T> with(final String orPredicate, final String key, final String operation, final Object value, final String prefix, final String suffix) {
         SearchOperation op = SearchOperation.getSimpleOperation(operation.charAt(0));
 
@@ -40,6 +79,9 @@ public class SearchSpecificationsBuilder<T> {
         return this;
     }
 
+    /**
+     * 検索仕様を生成する.
+     */
     public Specification<T> build() {
         if (params.size() == 0) {
             return null;

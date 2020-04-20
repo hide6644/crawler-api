@@ -22,8 +22,8 @@ public class AuthenticationManager implements ReactiveAuthenticationManager {
     private JWTUtil jwtUtil;
 
     @Override
-    public Mono<Authentication> authenticate(Authentication authentication) {
-        String authToken = authentication.getCredentials().toString();
+    public Mono<Authentication> authenticate(final Authentication authentication) {
+        final String authToken = authentication.getCredentials().toString();
         String username;
 
         try {
@@ -42,7 +42,7 @@ public class AuthenticationManager implements ReactiveAuthenticationManager {
                 roles.add(Role.valueOf(rolemap));
             }
 
-            UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(
+            final UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(
                     username,
                     null,
                     roles.stream().map(authority -> new SimpleGrantedAuthority(authority.name()))

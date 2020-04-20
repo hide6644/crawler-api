@@ -9,11 +9,18 @@ import org.springframework.data.jpa.domain.Specification;
 
 import lombok.AllArgsConstructor;
 
+/**
+ * 検索仕様を保持するクラス.
+ */
 @AllArgsConstructor
 public class SearchSpecification<T> implements Specification<T> {
 
+    /** 検索条件 */
     private final SearchCriteria criteria;
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Predicate toPredicate(Root<T> root, CriteriaQuery<?> query, CriteriaBuilder builder) {
         switch (criteria.getOperation()) {
