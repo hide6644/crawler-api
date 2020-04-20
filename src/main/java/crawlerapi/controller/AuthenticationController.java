@@ -2,6 +2,7 @@ package crawlerapi.controller;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -9,7 +10,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import crawlerapi.entity.User;
 import crawlerapi.security.JWTUtil;
-import crawlerapi.security.PBKDF2Encoder;
 import crawlerapi.security.model.AuthRequest;
 import crawlerapi.security.model.AuthResponse;
 import crawlerapi.service.UserService;
@@ -23,14 +23,14 @@ public class AuthenticationController {
 
     private final JWTUtil jwtUtil;
 
-    private final PBKDF2Encoder passwordEncoder;
+    private final PasswordEncoder passwordEncoder;
 
     private final UserService userRepository;
 
     @PostMapping("/login")
     public Mono<ResponseEntity<?>> login(@RequestBody AuthRequest ar) {
         return Mono.just(userRepository.findByUsername(ar.getUsername())).map(userDetails -> {
-            if (passwordEncoder.encode(ar.getPassword()).equals(userDetails.orElseGet(User::new).getPassword())) {
+            if (passwordEncoder.matches(ar.getPassword(), userDetails.orElseGet(User::new).getPassword())) {
                 return ResponseEntity.ok(AuthResponse.builder().token(jwtUtil.generateToken(userDetails.orElseGet(User::new))).build());
             } else {
                 return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();

@@ -6,6 +6,7 @@ import javax.validation.Valid;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -15,7 +16,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import crawlerapi.controller.model.SignupRequest;
 import crawlerapi.entity.User;
-import crawlerapi.security.PBKDF2Encoder;
 import crawlerapi.security.model.Role;
 import crawlerapi.service.UserService;
 import lombok.AllArgsConstructor;
@@ -26,7 +26,7 @@ import reactor.core.publisher.Mono;
 @RequestMapping("/crawler-api")
 public class UserController {
 
-    private final PBKDF2Encoder passwordEncoder;
+    private final PasswordEncoder passwordEncoder;
 
     private final UserService userService;
 
