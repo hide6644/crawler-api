@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import crawlerapi.entity.User;
 import crawlerapi.security.JWTUtil;
 import crawlerapi.security.model.AuthRequest;
 import crawlerapi.security.model.AuthResponse;
@@ -30,8 +29,8 @@ public class AuthenticationController {
     @PostMapping("/login")
     public Mono<ResponseEntity<?>> login(@RequestBody AuthRequest ar) {
         return Mono.just(userRepository.findByUsername(ar.getUsername())).map(userDetails -> {
-            if (passwordEncoder.matches(ar.getPassword(), userDetails.orElseGet(User::new).getPassword())) {
-                return ResponseEntity.ok(AuthResponse.builder().token(jwtUtil.generateToken(userDetails.orElseGet(User::new))).build());
+            if (userDetails.map(user -> passwordEncoder.matches(ar.getPassword(), user.getPassword())).orElse(false)) {
+                return ResponseEntity.ok(AuthResponse.builder().token(userDetails.map(user -> jwtUtil.generateToken(user)).orElseThrow()).build());
             } else {
                 return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
             }
