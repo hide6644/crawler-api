@@ -17,16 +17,11 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
 
-import org.apache.lucene.analysis.core.LowerCaseFilterFactory;
-import org.apache.lucene.analysis.ja.JapaneseAnalyzer;
-import org.hibernate.search.annotations.Analyzer;
-import org.hibernate.search.annotations.Field;
-import org.hibernate.search.annotations.Indexed;
-import org.hibernate.search.annotations.IndexedEmbedded;
-import org.hibernate.search.annotations.Normalizer;
-import org.hibernate.search.annotations.NormalizerDef;
-import org.hibernate.search.annotations.SortableField;
-import org.hibernate.search.annotations.TokenFilterDef;
+import org.hibernate.search.engine.backend.types.Sortable;
+import org.hibernate.search.mapper.pojo.mapping.definition.annotation.FullTextField;
+import org.hibernate.search.mapper.pojo.mapping.definition.annotation.Indexed;
+import org.hibernate.search.mapper.pojo.mapping.definition.annotation.IndexedEmbedded;
+import org.hibernate.search.mapper.pojo.mapping.definition.annotation.KeywordField;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -47,8 +42,6 @@ import lombok.Setter;
 @Entity
 @Table(name = "novel")
 @Indexed
-@Analyzer(impl = JapaneseAnalyzer.class)
-@NormalizerDef(name = "novelSort", filters = @TokenFilterDef(factory = LowerCaseFilterFactory.class))
 @XmlRootElement
 public class Novel extends BaseObject implements Serializable {
 
@@ -59,25 +52,22 @@ public class Novel extends BaseObject implements Serializable {
     /** タイトル */
     @EqualsAndHashCode.Exclude
     @Column(length = 100)
-    @Field
-    @Field(name = "titleSort", normalizer = @Normalizer(definition = "novelSort"))
-    @SortableField(forField = "titleSort")
+    @FullTextField(analyzer = "japanese")
+    @KeywordField(name = "titleSort", sortable = Sortable.YES)
     private String title;
 
     /** 作者名 */
     @EqualsAndHashCode.Exclude
     @Column(length = 100)
-    @Field
-    @Field(name = "writernameSort", normalizer = @Normalizer(definition = "novelSort"))
-    @SortableField(forField = "writernameSort")
+    @FullTextField(analyzer = "japanese")
+    @KeywordField(name = "writernameSort", sortable = Sortable.YES)
     private String writername;
 
     /** 解説 */
     @EqualsAndHashCode.Exclude
     @Column
-    @Field
-    @Field(name = "descriptionSort", normalizer = @Normalizer(definition = "novelSort"))
-    @SortableField(forField = "descriptionSort")
+    @FullTextField(analyzer = "japanese")
+    @KeywordField(name = "descriptionSort", sortable = Sortable.YES)
     private String description;
 
     /** 本文 */
@@ -85,9 +75,8 @@ public class Novel extends BaseObject implements Serializable {
     @Column
     @Lob
     @Basic(fetch = FetchType.LAZY)
-    @Field
-    @Field(name = "bodySort", normalizer = @Normalizer(definition = "novelSort"))
-    @SortableField(forField = "bodySort")
+    @FullTextField(analyzer = "japanese")
+    @KeywordField(name = "bodySort", sortable = Sortable.YES)
     private String body;
 
     /** 削除フラグ */
