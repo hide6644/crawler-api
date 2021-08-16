@@ -49,7 +49,7 @@ public class NovelChapter extends BaseObject implements Serializable {
     /** タイトル */
     @EqualsAndHashCode.Exclude
     @Column(length = 100)
-    @FullTextField(analyzer = "japanese")
+    @FullTextField
     @KeywordField(name = "titleSort", sortable = Sortable.YES)
     private String title;
 
@@ -58,7 +58,7 @@ public class NovelChapter extends BaseObject implements Serializable {
     @Column
     @Lob
     @Basic(fetch = FetchType.LAZY)
-    @FullTextField(analyzer = "japanese")
+    @FullTextField
     @KeywordField(name = "bodySort", sortable = Sortable.YES)
     private String body;
 

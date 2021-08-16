@@ -11,14 +11,7 @@ spring:
     properties:
       hibernate:
         enable_lazy_load_no_trans: true
-        search:
-          backend:
-            lucene_version: LATEST
-            directory:
-              type: local-filesystem
-              root: ./index
-            analysis:
-              configurer: crawlerapi.CustomLuceneAnalysisConfigurer
+        search.backend.hosts: localhost:9200
   data.jpa.repositories.bootstrap-mode: deferred
 
 logging:

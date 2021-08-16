@@ -52,21 +52,21 @@ public class Novel extends BaseObject implements Serializable {
     /** タイトル */
     @EqualsAndHashCode.Exclude
     @Column(length = 100)
-    @FullTextField(analyzer = "japanese")
+    @FullTextField
     @KeywordField(name = "titleSort", sortable = Sortable.YES)
     private String title;
 
     /** 作者名 */
     @EqualsAndHashCode.Exclude
     @Column(length = 100)
-    @FullTextField(analyzer = "japanese")
+    @FullTextField
     @KeywordField(name = "writernameSort", sortable = Sortable.YES)
     private String writername;
 
     /** 解説 */
     @EqualsAndHashCode.Exclude
     @Column
-    @FullTextField(analyzer = "japanese")
+    @FullTextField
     @KeywordField(name = "descriptionSort", sortable = Sortable.YES)
     private String description;
 
@@ -75,7 +75,7 @@ public class Novel extends BaseObject implements Serializable {
     @Column
     @Lob
     @Basic(fetch = FetchType.LAZY)
-    @FullTextField(analyzer = "japanese")
+    @FullTextField
     @KeywordField(name = "bodySort", sortable = Sortable.YES)
     private String body;
 
