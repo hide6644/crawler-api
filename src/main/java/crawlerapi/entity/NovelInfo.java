@@ -21,20 +21,6 @@ import javax.persistence.Transient;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.apache.lucene.analysis.core.LowerCaseFilterFactory;
-import org.apache.lucene.analysis.core.WhitespaceAnalyzer;
-import org.hibernate.search.annotations.Analyze;
-import org.hibernate.search.annotations.Analyzer;
-import org.hibernate.search.annotations.ContainedIn;
-import org.hibernate.search.annotations.Facet;
-import org.hibernate.search.annotations.FacetEncodingType;
-import org.hibernate.search.annotations.Field;
-import org.hibernate.search.annotations.Indexed;
-import org.hibernate.search.annotations.IndexedEmbedded;
-import org.hibernate.search.annotations.Normalizer;
-import org.hibernate.search.annotations.NormalizerDef;
-import org.hibernate.search.annotations.SortableField;
-import org.hibernate.search.annotations.TokenFilterDef;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -52,8 +38,6 @@ import lombok.Setter;
 @Builder
 @Entity
 @Table(name = "novel_info")
-@Indexed
-@NormalizerDef(name = "novelInfoSort", filters = @TokenFilterDef(factory = LowerCaseFilterFactory.class))
 public class NovelInfo extends BaseObject implements Serializable {
 
     /** ログ出力クラス */
@@ -73,16 +57,11 @@ public class NovelInfo extends BaseObject implements Serializable {
 
     /** キーワード */
     @Column(length = 300)
-    @Analyzer(impl = WhitespaceAnalyzer.class)
-    @Field
-    @Field(name = "keywordSort", normalizer = @Normalizer(definition = "novelInfoSort"))
-    @SortableField(forField = "keywordSort")
     private String keyword;
 
     /** キーワードセット */
     @Builder.Default
     @Transient
-    @IndexedEmbedded
     @OneToMany
     private Set<KeywordWrap> keywordSet = new HashSet<>();
 
@@ -101,7 +80,6 @@ public class NovelInfo extends BaseObject implements Serializable {
     /** 小説 */
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "novel_id")
-    @ContainedIn
     private Novel novel;
 
     /**
@@ -158,7 +136,5 @@ public class NovelInfo extends BaseObject implements Serializable {
 class KeywordWrap implements Serializable {
 
     /** キーワード */
-    @Field(analyze = Analyze.NO)
-    @Facet(encoding = FacetEncodingType.STRING)
     String keyword;
 }
