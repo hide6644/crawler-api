@@ -16,11 +16,6 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
-import org.hibernate.search.engine.backend.types.Sortable;
-import org.hibernate.search.mapper.pojo.mapping.definition.annotation.FullTextField;
-import org.hibernate.search.mapper.pojo.mapping.definition.annotation.Indexed;
-import org.hibernate.search.mapper.pojo.mapping.definition.annotation.KeywordField;
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
@@ -39,7 +34,6 @@ import lombok.Setter;
 @EqualsAndHashCode(callSuper = false)
 @Entity
 @Table(name = "novel_chapter")
-@Indexed
 public class NovelChapter extends BaseObject implements Serializable {
 
     /** URL */
@@ -49,8 +43,6 @@ public class NovelChapter extends BaseObject implements Serializable {
     /** タイトル */
     @EqualsAndHashCode.Exclude
     @Column(length = 100)
-    @FullTextField
-    @KeywordField(name = "titleSort", sortable = Sortable.YES)
     private String title;
 
     /** 本文 */
@@ -58,8 +50,6 @@ public class NovelChapter extends BaseObject implements Serializable {
     @Column
     @Lob
     @Basic(fetch = FetchType.LAZY)
-    @FullTextField
-    @KeywordField(name = "bodySort", sortable = Sortable.YES)
     private String body;
 
     /** 小説の章の付随情報 */

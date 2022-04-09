@@ -3,6 +3,7 @@ package crawlerapi.entity;
 import java.io.Serializable;
 import java.time.Duration;
 import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -13,19 +14,13 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.hibernate.search.engine.backend.types.Aggregable;
-import org.hibernate.search.mapper.pojo.mapping.definition.annotation.FullTextField;
-import org.hibernate.search.mapper.pojo.mapping.definition.annotation.Indexed;
-import org.hibernate.search.mapper.pojo.mapping.definition.annotation.IndexingDependency;
-import org.hibernate.search.mapper.pojo.mapping.definition.annotation.KeywordField;
-import org.hibernate.search.mapper.pojo.mapping.definition.annotation.ObjectPath;
-import org.hibernate.search.mapper.pojo.mapping.definition.annotation.PropertyValue;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -43,7 +38,6 @@ import lombok.Setter;
 @Builder
 @Entity
 @Table(name = "novel_info")
-@Indexed
 public class NovelInfo extends BaseObject implements Serializable {
 
     /** ログ出力クラス */
@@ -63,8 +57,13 @@ public class NovelInfo extends BaseObject implements Serializable {
 
     /** キーワード */
     @Column(length = 300)
-    @FullTextField(analyzer = "whitespace")
     private String keyword;
+
+    /** キーワードセット */
+    @Builder.Default
+    @Transient
+    @OneToMany
+    private Set<KeywordWrap> keywordSet = new HashSet<>();
 
     /** お気に入りフラグ */
     @Column
@@ -114,15 +113,28 @@ public class NovelInfo extends BaseObject implements Serializable {
     }
 
     /**
-     * スペースで分割したキーワードを取得する.
+     * キーワードを設定する.
+     * スペースで分割したキーワードをKeywordWrapに設定する.
      *
-     * @return スペースで分割したキーワード
+     * @param keyword
+     *            キーワード
      */
-    @Transient
-    @IndexingDependency(derivedFrom = @ObjectPath(@PropertyValue(propertyName = "keyword")))
-    @KeywordField(name = "keywordFacet", aggregable = Aggregable.YES)
-    public Set<String> getKeywordSet() {
-        return Stream.of(Optional.ofNullable(keyword).orElseGet(String::new).split(" "))
-                .collect(Collectors.toSet());
+    public void setKeyword(String keyword) {
+        this.keyword = keyword;
+
+        Stream.of(Optional.ofNullable(keyword).orElseGet(String::new).split(" "))
+                .collect(Collectors.toSet()).forEach(keywords -> keywordSet.add(new KeywordWrap(keywords)));
     }
+}
+
+/**
+ * 小説の付随情報のキーワード
+ */
+@AllArgsConstructor
+@Setter
+@Getter
+class KeywordWrap implements Serializable {
+
+    /** キーワード */
+    String keyword;
 }
