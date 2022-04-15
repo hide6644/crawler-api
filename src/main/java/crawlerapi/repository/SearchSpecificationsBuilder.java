@@ -26,13 +26,13 @@ public class SearchSpecificationsBuilder<T> {
      * @param key
      *            キー
      * @param operation
-     *            操作
+     *            操作(完全一致、大なり、小なり等)
      * @param value
      *            値
      * @param prefix
-     *            接頭辞
+     *            接頭辞の記号(アスタリスク)
      * @param suffix
-     *            接尾辞
+     *            接尾辞の記号(アスタリスク)
      * @return 検索仕様を生成するクラス
      */
     public final SearchSpecificationsBuilder<T> with(final String key, final String operation, final Object value, final String prefix, final String suffix) {
@@ -43,17 +43,17 @@ public class SearchSpecificationsBuilder<T> {
      * 検索仕様を生成するクラスをインスタンス化する.
      *
      * @param orPredicate
-     *            OR述語 true:OR、false:AND
+     *            OR述語 ':OR、null:AND
      * @param key
      *            キー
      * @param operation
-     *            操作
+     *            操作(完全一致、大なり、小なり等)
      * @param value
      *            値
      * @param prefix
-     *            接頭辞
+     *            接頭辞の記号(アスタリスク)
      * @param suffix
-     *            接尾辞
+     *            接尾辞の記号(アスタリスク)
      * @return 検索仕様を生成するクラス
      */
     public final SearchSpecificationsBuilder<T> with(final String orPredicate, final String key, final String operation, final Object value, final String prefix, final String suffix) {
