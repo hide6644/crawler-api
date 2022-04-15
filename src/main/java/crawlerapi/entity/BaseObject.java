@@ -11,6 +11,8 @@ import javax.persistence.MappedSuperclass;
 import javax.persistence.Version;
 import javax.xml.bind.annotation.XmlTransient;
 
+import org.hibernate.search.mapper.pojo.mapping.definition.annotation.DocumentId;
+
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -27,6 +29,7 @@ public abstract class BaseObject implements Serializable {
     /** ID */
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @DocumentId
     @XmlTransient
     private Long id;
 

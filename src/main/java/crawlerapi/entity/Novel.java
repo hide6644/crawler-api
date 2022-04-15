@@ -17,6 +17,11 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import org.hibernate.search.engine.backend.types.Sortable;
+import org.hibernate.search.mapper.pojo.mapping.definition.annotation.FullTextField;
+import org.hibernate.search.mapper.pojo.mapping.definition.annotation.Indexed;
+import org.hibernate.search.mapper.pojo.mapping.definition.annotation.KeywordField;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
@@ -35,6 +40,7 @@ import lombok.Setter;
 @EqualsAndHashCode(callSuper = false)
 @Entity
 @Table(name = "novel")
+@Indexed
 @XmlRootElement
 public class Novel extends BaseObject implements Serializable {
 
@@ -45,16 +51,22 @@ public class Novel extends BaseObject implements Serializable {
     /** タイトル */
     @EqualsAndHashCode.Exclude
     @Column(length = 100)
+    @FullTextField(analyzer = "japanese")
+    @KeywordField(name = "titleSort", sortable = Sortable.YES)
     private String title;
 
     /** 作者名 */
     @EqualsAndHashCode.Exclude
     @Column(length = 100)
+    @FullTextField(analyzer = "japanese")
+    @KeywordField(name = "writernameSort", sortable = Sortable.YES)
     private String writername;
 
     /** 解説 */
     @EqualsAndHashCode.Exclude
     @Column
+    @FullTextField(analyzer = "japanese")
+    @KeywordField(name = "descriptionSort", sortable = Sortable.YES)
     private String description;
 
     /** 本文 */

@@ -12,27 +12,27 @@ import lombok.Setter;
 @Getter
 public class SearchCriteria {
 
+    /** OR述語 true:OR、false:AND */
+    private boolean orPredicate;
+
     /** キー */
     private final String key;
 
-    /** 操作 */
+    /** 操作(完全一致、大なり、小なり等) */
     private final SearchOperation operation;
 
     /** 値 */
     private final Object value;
 
-    /** OR述語 true:OR、false:AND */
-    private boolean orPredicate;
-
     /**
      * コンストラクタ.
      *
      * @param orPredicate
-     *            OR述語 true:OR、false:AND
+     *            OR述語 ':OR、null:AND
      * @param key
      *            キー
      * @param operation
-     *            操作
+     *            操作(完全一致、大なり、小なり等)
      * @param value
      *            値
      */
