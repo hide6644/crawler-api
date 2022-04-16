@@ -1,5 +1,7 @@
 package crawlerapi.service;
 
+import static crawlerapi.repository.SearchParameter.*;
+
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Stream;
@@ -51,8 +53,8 @@ public class NovelService {
 
         while (matcher.find()) {
             builder.with(
-                    matcher.group(1), matcher.group(2), matcher.group(3),
-                    matcher.group(5), matcher.group(4), matcher.group(6));
+                    matcher.group(OR_PREDICATE), matcher.group(KEY), matcher.group(OPERATION),
+                    matcher.group(VALUE), matcher.group(PREFIX), matcher.group(SUFFIX));
         }
 
         return novelRepository.findAll(builder.build()).stream();
@@ -71,8 +73,8 @@ public class NovelService {
                 .where(f -> f.bool(b -> {
                     b.must(f.matchAll());
                     while (matcher.find()) {
-                        b.must(f.match().field(matcher.group(2))
-                                .matching(matcher.group(5)));
+                        b.must(f.match().field(matcher.group(KEY))
+                                .matching(matcher.group(VALUE)));
                     }
                 }))
                 .fetchAll();
