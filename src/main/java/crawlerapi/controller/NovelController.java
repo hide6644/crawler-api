@@ -45,7 +45,7 @@ public class NovelController {
             @RequestParam(value = "search", required = false) String searchParameters) {
         Stream<Novel> novels = searchParameters == null
                 ? novelService.findAll()
-                : novelService.search(searchParameters);
+                : novelService.searchIndex(searchParameters);
         NovelSummariesResponse novelSummariesResponse = NovelSummariesResponse.builder()
                 .novels(novels.map(novel -> NovelSummary.builder()
                         .id(novel.getId())
