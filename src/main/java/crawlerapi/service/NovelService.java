@@ -53,8 +53,12 @@ public class NovelService {
 
         while (matcher.find()) {
             builder.with(
-                    matcher.group(OR_PREDICATE), matcher.group(KEY), matcher.group(OPERATION),
-                    matcher.group(VALUE), matcher.group(PREFIX), matcher.group(SUFFIX));
+                    matcher.group(OR_PREDICATE),
+                    matcher.group(KEY),
+                    matcher.group(OPERATION),
+                    matcher.group(VALUE),
+                    matcher.group(PREFIX),
+                    matcher.group(SUFFIX));
         }
 
         return novelRepository.findAll(builder.build()).stream();
@@ -73,7 +77,8 @@ public class NovelService {
                 .where(f -> f.bool(b -> {
                     b.must(f.matchAll());
                     while (matcher.find()) {
-                        b.must(f.match().field(matcher.group(KEY))
+                        b.must(f.match()
+                                .field(matcher.group(KEY))
                                 .matching(matcher.group(VALUE)));
                     }
                 }))
