@@ -26,6 +26,9 @@ import lombok.Setter;
 @MappedSuperclass
 public abstract class BaseObject implements Serializable {
 
+    /** ソートフィールド名 */
+    public static final String SORT_NAME = "_sort";
+
     /** ID */
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

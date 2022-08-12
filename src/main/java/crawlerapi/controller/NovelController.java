@@ -21,6 +21,7 @@ import crawlerapi.dto.NovelChapterSummary;
 import crawlerapi.dto.NovelInfoSummary;
 import crawlerapi.dto.NovelSummary;
 import crawlerapi.entity.Novel;
+import crawlerapi.service.NovelIndexService;
 import crawlerapi.service.NovelService;
 import lombok.AllArgsConstructor;
 import reactor.core.publisher.Mono;
@@ -31,6 +32,8 @@ import reactor.core.publisher.Mono;
 public class NovelController {
 
     private final NovelService novelService;
+
+    private final NovelIndexService novelIndexService;
 
     @PutMapping("/novels/{id}/favorite")
     public Mono<ResponseEntity<NovelInfoSummary>> updateFavorite(@PathVariable("id") Long novelId, @RequestBody boolean favorite) {
@@ -44,8 +47,8 @@ public class NovelController {
     public Mono<ResponseEntity<NovelSummariesResponse>> search(
             @RequestParam(value = "search", required = false) String searchParameters) {
         Stream<Novel> novels = searchParameters == null
-                ? novelService.findAll()
-                : novelService.searchIndex(searchParameters);
+                ? novelIndexService.findAll()
+                : novelIndexService.search(searchParameters);
         NovelSummariesResponse novelSummariesResponse = NovelSummariesResponse.builder()
                 .novels(novels.map(novel -> NovelSummary.builder()
                         .id(novel.getId())

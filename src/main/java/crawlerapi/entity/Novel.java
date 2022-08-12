@@ -44,6 +44,15 @@ import lombok.Setter;
 @XmlRootElement
 public class Novel extends BaseObject implements Serializable {
 
+    /** タイトルのフィールド名 */
+    public static final String TITLE_FIELD_NAME = "title";
+
+    /** 作者名のフィールド名 */
+    public static final String WRITERNAME_FIELD_NAME = "writername";
+
+    /** 解説のフィールド名 */
+    public static final String DESCRIPTION_FIELD_NAME = "description";
+
     /** URL */
     @Column(nullable = false, length = 64)
     private String url;
@@ -52,21 +61,21 @@ public class Novel extends BaseObject implements Serializable {
     @EqualsAndHashCode.Exclude
     @Column(length = 100)
     @FullTextField(analyzer = "japanese")
-    @KeywordField(name = "titleSort", sortable = Sortable.YES)
+    @KeywordField(name = TITLE_FIELD_NAME + SORT_NAME, sortable = Sortable.YES)
     private String title;
 
     /** 作者名 */
     @EqualsAndHashCode.Exclude
     @Column(length = 100)
     @FullTextField(analyzer = "japanese")
-    @KeywordField(name = "writernameSort", sortable = Sortable.YES)
+    @KeywordField(name = WRITERNAME_FIELD_NAME + SORT_NAME, sortable = Sortable.YES)
     private String writername;
 
     /** 解説 */
     @EqualsAndHashCode.Exclude
     @Column
     @FullTextField(analyzer = "japanese")
-    @KeywordField(name = "descriptionSort", sortable = Sortable.YES)
+    @KeywordField(name = DESCRIPTION_FIELD_NAME + SORT_NAME, sortable = Sortable.YES)
     private String description;
 
     /** 本文 */

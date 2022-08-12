@@ -6,13 +6,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Stream;
 
-import javax.persistence.EntityManager;
-
-import org.hibernate.search.engine.search.query.SearchResult;
-import org.hibernate.search.mapper.orm.Search;
-import org.hibernate.search.mapper.orm.session.SearchSession;
+import org.springframework.data.jpa.domain.JpaSort;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import crawlerapi.entity.Novel;
 import crawlerapi.exception.NovelNotFoundException;
@@ -27,8 +22,6 @@ public class NovelService {
 
     private final NovelRepository novelRepository;
 
-    private final EntityManager entityManager;
-
     public void saveFavorite(final Long id, final boolean favorite) {
         Novel novel = findById(id);
         novel.getNovelInfo().setFavorite(favorite);
@@ -36,7 +29,7 @@ public class NovelService {
     }
 
     public Stream<Novel> findAll() {
-        return novelRepository.findAll().stream();
+        return novelRepository.findAllByOrderByTitleAscWriternameAsc().stream();
     }
 
     public Novel findById(final Long id) {
@@ -61,29 +54,6 @@ public class NovelService {
                     matcher.group(SUFFIX));
         }
 
-        return novelRepository.findAll(builder.build()).stream();
-    }
-
-    @Transactional
-    public Stream<Novel> searchIndex(final String searchParameters) {
-        SearchSession searchSession = Search.session(entityManager);
-        String operationSetExper = String.join("|", SearchOperation.SIMPLE_OPERATION_SET);
-        Pattern pattern = Pattern.compile(
-                "(\\p{Punct}?)(\\w+?)(" + operationSetExper + ")(\\p{Punct}?)(\\w+?)(\\p{Punct}?),",
-                Pattern.UNICODE_CHARACTER_CLASS);
-        Matcher matcher = pattern.matcher(searchParameters + ",");
-
-        SearchResult<Novel> result = searchSession.search(Novel.class)
-                .where(f -> f.bool(b -> {
-                    b.must(f.matchAll());
-                    while (matcher.find()) {
-                        b.must(f.match()
-                                .field(matcher.group(KEY))
-                                .matching(matcher.group(VALUE)));
-                    }
-                }))
-                .fetchAll();
-
-        return result.hits().stream();
+        return novelRepository.findAll(builder.build(), JpaSort.by(Novel.TITLE_FIELD_NAME, Novel.WRITERNAME_FIELD_NAME)).stream();
     }
 }
