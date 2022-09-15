@@ -61,6 +61,7 @@ public class NovelController {
                                         .favorite(novel.getNovelInfo().isFavorite())
                                         .build())
                         .build()))
+                .aggregateByKeywords(novelIndexService.aggregateByKeywords())
                 .build();
         return Mono.just(ResponseEntity.ok(novelSummariesResponse));
     }

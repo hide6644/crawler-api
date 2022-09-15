@@ -20,6 +20,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 import org.hibernate.search.engine.backend.types.Sortable;
 import org.hibernate.search.mapper.pojo.mapping.definition.annotation.FullTextField;
 import org.hibernate.search.mapper.pojo.mapping.definition.annotation.Indexed;
+import org.hibernate.search.mapper.pojo.mapping.definition.annotation.IndexedEmbedded;
 import org.hibernate.search.mapper.pojo.mapping.definition.annotation.KeywordField;
 
 import lombok.AllArgsConstructor;
@@ -93,6 +94,7 @@ public class Novel extends BaseObject implements Serializable {
     /** 小説の付随情報 */
     @EqualsAndHashCode.Exclude
     @OneToOne(fetch = FetchType.LAZY, mappedBy = "novel", cascade = CascadeType.ALL)
+    @IndexedEmbedded
     private NovelInfo novelInfo;
 
     /** 小説の更新履歴セット */

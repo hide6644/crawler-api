@@ -37,6 +37,11 @@ public class NovelService {
     }
 
     public Stream<Novel> search(final String searchParameters) {
+        SearchSpecificationsBuilder<Novel> builder = createSpecificationsBuilder(searchParameters);
+        return novelRepository.findAll(builder.build(), JpaSort.by(Novel.TITLE_FIELD_NAME, Novel.WRITERNAME_FIELD_NAME)).stream();
+    }
+
+    private SearchSpecificationsBuilder<Novel> createSpecificationsBuilder(final String searchParameters) {
         SearchSpecificationsBuilder<Novel> builder = new SearchSpecificationsBuilder<>();
         String operationSetExper = String.join("|", SearchOperation.SIMPLE_OPERATION_SET);
         Pattern pattern = Pattern.compile(
@@ -54,6 +59,6 @@ public class NovelService {
                     matcher.group(SUFFIX));
         }
 
-        return novelRepository.findAll(builder.build(), JpaSort.by(Novel.TITLE_FIELD_NAME, Novel.WRITERNAME_FIELD_NAME)).stream();
+        return builder;
     }
 }
