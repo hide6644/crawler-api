@@ -2,7 +2,7 @@ package crawlerapi.controller;
 
 import java.util.Arrays;
 
-import javax.validation.Valid;
+import jakarta.validation.Valid;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
