@@ -3,13 +3,13 @@ package crawlerapi.entity;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
-import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.MappedSuperclass;
-import javax.persistence.Version;
-import javax.xml.bind.annotation.XmlTransient;
+import jakarta.persistence.Column;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.MappedSuperclass;
+import jakarta.persistence.Version;
+import jakarta.xml.bind.annotation.XmlTransient;
 
 import org.hibernate.search.mapper.pojo.mapping.definition.annotation.DocumentId;
 
@@ -25,6 +25,9 @@ import lombok.Setter;
 @EqualsAndHashCode
 @MappedSuperclass
 public abstract class BaseObject implements Serializable {
+
+    /** ソートフィールド名 */
+    public static final String SORT_NAME = "_sort";
 
     /** ID */
     @Id
