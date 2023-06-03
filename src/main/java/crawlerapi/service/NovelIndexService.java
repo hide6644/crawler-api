@@ -39,7 +39,7 @@ public class NovelIndexService {
         Matcher matcher = createMatcher(searchParameters);
 
         return Search.session(entityManager).search(Novel.class)
-                .where(f -> f.bool(b -> {
+                .where(f -> f.bool().with(b -> {
                     b.must(f.matchAll());
                     while (matcher.find()) {
                         b.must(f.match()

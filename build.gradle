@@ -30,7 +30,7 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-security'
     implementation 'org.springframework.boot:spring-boot-starter-validation'
     implementation 'org.springframework.boot:spring-boot-starter-webflux'
-    implementation 'org.apache.lucene:lucene-analyzers-kuromoji:8.11.1'
+    implementation 'org.apache.lucene:lucene-analyzers-kuromoji:8.11.2'
     implementation 'org.hibernate.search:hibernate-search-mapper-orm-orm6:6.2.0.Beta1'
     implementation 'org.hibernate.search:hibernate-search-backend-lucene:6.2.0.Beta1'
     compileOnly 'io.jsonwebtoken:jjwt-api:0.11.5'
