@@ -31,40 +31,40 @@ public class WebSecurityConfig {
     private SecurityContextRepository securityContextRepository;
 
     @Bean
-    public SecurityWebFilterChain securitygWebFilterChain(ServerHttpSecurity http) {
+    SecurityWebFilterChain securitygWebFilterChain(ServerHttpSecurity http) {
         return http
-                .exceptionHandling()
-                .authenticationEntryPoint((swe, e) -> {
-                    return Mono.fromRunnable(() -> {
-                        swe.getResponse().setStatusCode(HttpStatus.UNAUTHORIZED);
-                    });
-                }).accessDeniedHandler((swe, e) -> {
-                    return Mono.fromRunnable(() -> {
-                        swe.getResponse().setStatusCode(HttpStatus.FORBIDDEN);
-                    });
-                }).and()
-                .cors().configurationSource(corsConfigurationSource())
-                .and().csrf().disable()
-                .formLogin().disable()
-                .httpBasic().disable()
+                .exceptionHandling((exceptionHandling) -> exceptionHandling
+                        .authenticationEntryPoint((swe, e) -> {
+                            return Mono.fromRunnable(() -> {
+                                swe.getResponse().setStatusCode(HttpStatus.UNAUTHORIZED);
+                            });
+                        }).accessDeniedHandler((swe, e) -> {
+                            return Mono.fromRunnable(() -> {
+                                swe.getResponse().setStatusCode(HttpStatus.FORBIDDEN);
+                            });
+                        }))
+                .csrf(csrf -> csrf.disable())
+                .formLogin(formLogin -> formLogin.disable())
+                .httpBasic(httpBasic -> httpBasic.disable())
                 .authenticationManager(authenticationManager)
                 .securityContextRepository(securityContextRepository)
-                .authorizeExchange()
-                .pathMatchers(HttpMethod.OPTIONS).permitAll()
-                .pathMatchers("/crawler-api/login").permitAll()
-                .pathMatchers("/crawler-api/signup").permitAll()
-                .pathMatchers("/crawler-api/users*").hasAuthority("ROLE_USER")
-                .pathMatchers("/crawler-api/novels*").hasAuthority("ROLE_USER")
-                .anyExchange().authenticated()
-                .and().build();
+                .authorizeExchange(exchanges -> exchanges
+                        .pathMatchers(HttpMethod.OPTIONS).permitAll()
+                        .pathMatchers("/crawler-api/login").permitAll()
+                        .pathMatchers("/crawler-api/signup").permitAll()
+                        .pathMatchers("/crawler-api/users*").hasAuthority("ROLE_USER")
+                        .pathMatchers("/crawler-api/novels*").hasAuthority("ROLE_USER")
+                        .anyExchange().authenticated())
+                .build();
     }
 
     @Bean
-    public PasswordEncoder passwordEncoder() {
+    PasswordEncoder passwordEncoder() {
         return PasswordEncoderFactories.createDelegatingPasswordEncoder();
     }
 
-    private CorsConfigurationSource corsConfigurationSource() {
+    @Bean
+    CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration corsConfiguration = new CorsConfiguration();
         corsConfiguration.addAllowedOrigin("*");
         corsConfiguration.addAllowedMethod("*");
