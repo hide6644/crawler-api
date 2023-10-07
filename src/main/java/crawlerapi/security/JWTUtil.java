@@ -13,8 +13,6 @@ import org.springframework.stereotype.Component;
 import crawlerapi.entity.User;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
-import io.jsonwebtoken.security.Keys;
 
 @Component
 public final class JWTUtil implements Serializable {
@@ -22,10 +20,10 @@ public final class JWTUtil implements Serializable {
     @Value("${crawler-api.jjwt.expiration}")
     private String expirationTime;
 
-    private SecretKey key = Keys.secretKeyFor(SignatureAlgorithm.HS512);
+    private SecretKey key = Jwts.SIG.HS512.key().build();
 
     public Claims getAllClaimsFromToken(final String token) {
-        return Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token).getBody();
+        return Jwts.parser().verifyWith(key).build().parseSignedClaims(token).getPayload();
     }
 
     public String getUsernameFromToken(final String token) {
@@ -53,10 +51,10 @@ public final class JWTUtil implements Serializable {
         final Date createdDate = new Date();
         final Date expirationDate = new Date(createdDate.getTime() + expirationTimeLong * 1000);
         return Jwts.builder()
-                .setClaims(claims)
-                .setSubject(username)
-                .setIssuedAt(createdDate)
-                .setExpiration(expirationDate)
+                .claims(claims)
+                .subject(username)
+                .issuedAt(createdDate)
+                .expiration(expirationDate)
                 .signWith(key)
                 .compact();
     }
