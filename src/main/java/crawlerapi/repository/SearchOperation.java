@@ -46,19 +46,13 @@ public enum SearchOperation {
      * @return 検索操作の型
      */
     public static final SearchOperation getSimpleOperation(final char input) {
-        switch (input) {
-        case ':':
-            return EQUALITY;
-        case '!':
-            return NEGATION;
-        case '>':
-            return GREATER_THAN;
-        case '<':
-            return LESS_THAN;
-        case '~':
-            return LIKE;
-        default:
-            return null;
-        }
+        return switch (input) {
+        case ':' -> EQUALITY;
+        case '!' -> NEGATION;
+        case '>' -> GREATER_THAN;
+        case '<' -> LESS_THAN;
+        case '~' -> LIKE;
+        default -> null;
+        };
     }
 }
