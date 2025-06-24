@@ -91,8 +91,8 @@ public class SearchSpecificationsBuilder<T> {
 
         for (int i = 1; i < params.size(); i++) {
             result = params.get(i).isOrPredicate()
-                    ? Specification.where(result).or(new SearchSpecification<T>(params.get(i)))
-                    : Specification.where(result).and(new SearchSpecification<T>(params.get(i)));
+                    ? result.or(new SearchSpecification<T>(params.get(i)))
+                    : result.and(new SearchSpecification<T>(params.get(i)));
         }
 
         return result;
